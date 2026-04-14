@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/errors') %>
+    <form action="/demographics/new" method="POST">
+        <label for="">Name</label>
+        <input type="text" required>
+        <button type="submit">Create</button>
+    </form>
+</body>
+</html>

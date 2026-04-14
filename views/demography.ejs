@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <nav>
+        <h1><%= title %></h1>
+        <a class="delete" data-demo-id=``>Delete</a>
+    </nav>
+    <section>
+        <% if(models.length>0){ %>
+            <ul>
+                <% models.forEach(model=>{ %>
+                    <li>
+                        <%= model.description %>
+                    </li>
+                <% }) %>
+            </ul>
+        <% } %>
+    </section>
+    <%- include('partials/confirmDeletion') %>
+</body>
+</html>
