@@ -1,0 +1,16 @@
+   <article>
+        <h2><%= model.description %></h2>
+        <div>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+            <a href="/all-shoes?modelId=<%= model.id %>">See stock</a>
+        </div>
+        <div>
+            <h3>Demographic</h3>
+            <p><%= model.gender %></p>
+        </div>
+        <div>
+            <h3>Brand</h3>
+            <p><%= model.name %></p>
+        </div>
+</article> 

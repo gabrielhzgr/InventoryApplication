@@ -11,21 +11,51 @@ async function getDemographic(id){
 }
 
 async function getDemoModels(id){
-    const {rows} = await pool.query('SELECT * FROM models WHERE demo_id=$1', [id])
+    
+    const {rows} = await pool.query(`SELECT models.id, description,gender,name from models 
+        JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE demo_id=$1`
+        , [id])
+    return rows
+}
+
+async function getBrand(id) {
+    const {rows} = await pool.query('SELECT * FROM brands WHERE id=$1', [id])
+    return rows
+}
+
+async function getBrandModels(id) {
+    const {rows} = await pool.query('SELECT * FROM models WHERE brand_id=$1', [id])
     return rows
 }
 
 async function deleteDemographic(id){
+
     const query = `
     WITH cte1 AS (SELECT id FROM models WHERE demo_id=$1),
-         cte2 AS (SELECT sku FROM models_shoes WHERE model_id IN (SELECT id FROM cte1)),
+         cte2 AS (SELECT sku FROM shoes WHERE model_id IN (SELECT id FROM cte1)),
          dt1 AS (DELETE FROM models_tags WHERE model_id IN (SELECT id FROM cte1)),
          dt2 AS (DELETE FROM shoes WHERE sku IN (SELECT sku FROM cte2)),
-         dt3 AS (DELETE FROM models_shoes WHERE model_id IN (SELECT id FROM cte1)),
          dte4 AS (DELETE FROM models WHERE id IN (SELECT id FROM cte1))
     DELETE FROM demographics WHERE id=$1`
     const result = await pool.query(query,[id])
     return result
+}
+
+async function deleteBrand(id) {
+     const query = `
+    WITH cte1 AS (SELECT id FROM models WHERE brand_id=$1),
+         cte2 AS (SELECT sku FROM shoes WHERE model_id IN (SELECT id FROM cte1)),
+         dt1 AS (DELETE FROM models_tags WHERE model_id IN (SELECT id FROM cte1)),
+         dt2 AS (DELETE FROM shoes WHERE sku IN (SELECT sku FROM cte2)),
+         dte4 AS (DELETE FROM models WHERE id IN (SELECT id FROM cte1))
+    DELETE FROM brands WHERE id=$1`
+    const result = await pool.query(query,[id])
+    return result
+}
+
+async function getModel(id) {
+    const {rows} = await pool.query('SELECT * FROM models WHERE id=$1',[id])
+    return rows
 }
 
 async function getAllModels() {
@@ -52,7 +82,8 @@ async function createNewShoe(color, size, price, modelId, unitsInStock){
 }
 
 async function createNewModel(description, brandId, demoId, tags) {
-    const {rows} = await pool.query(`SELECT * FROM createModel($1, $2, $3, ARRAY[$4])`, [description, brandId, demoId, tags])
+    const {rows} = await pool.query(`SELECT * FROM createModel($1, $2, $3, $4)`, 
+        [description, brandId, demoId, tags])
     return rows
 }
 
@@ -75,9 +106,13 @@ module.exports = {
     getDemographic, 
     getDemoModels,
     getAllModels,
+    getModel,
     getAllShoes,
     getShoesByModel,
+    getBrand,
+    getBrandModels,
     createNewShoe,
     createNewModel,
-    deleteDemographic
+    deleteDemographic,
+    deleteBrand
 }

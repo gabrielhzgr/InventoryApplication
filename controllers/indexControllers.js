@@ -23,7 +23,8 @@ async function getNewShoeForm(req,res){
 async function getAllShoes(req,res){
     if(req.query.modelId){
         const shoes = await db.getShoesByModel(Number(req.query.modelId))
-        res.render('allShoes',{title: `All Shoe Stock for ${shoes[0].description}`, shoes})
+        const model = await db.getModel(Number(req.query.modelId))
+        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes})
         return
     }
     const shoes = await db.getAllShoes()
@@ -43,10 +44,8 @@ async function createNewShoe(req,res){
 
 async function createNewModel(req,res) {
     const {description, brandId, demoId, tags} = req.body
-
-    const result = await db.createNewModel(description, Number(brandId), Number(demoId), tags.map(tag=>Number(tag)))
-    return result
-
+    const result = await db.createNewModel(description, Number(brandId), Number(demoId), tags)
+    res.send('Created model')
 }
 
 function deleteShoe(req,res){

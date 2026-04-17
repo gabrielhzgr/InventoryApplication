@@ -6,17 +6,16 @@
         <h1><%= title %></h1>
         <a class="delete" data-demo-id=``>Delete</a>
     </nav>
-    <section>
+    
         <% if(models.length>0){ %>
-            <ul>
+            <section>
                 <% models.forEach(model=>{ %>
-                    <li>
-                        <%= model.description %>
-                    </li>
+                    <%- include('partials/model', {model}) %>
                 <% }) %>
-            </ul>
+            </section>
         <% } %>
-    </section>
-    <%- include('partials/confirmDeletion') %>
+
+    
+    <%- include('partials/confirmDeletion',{url:`/demographics/${demographic.id}`}) %>
 </body>
 </html>

@@ -1,43 +1,53 @@
 <script>
         const mockPassword = 'adminpassword'
-        document.querySelector('a.delete').addEventListener('click',(e)=>{
-            const dialog = document.createElement('div')
-            dialog.innerHTML = `<%- include('dialog') %>`
+        let toggled = false   
+                document.querySelector('a.delete').addEventListener('click',(e)=>{
 
-            deleteBtn = Object.assign(document.createElement('button'),
-            {textContent: 'Delete', className: 'confirm-btn'})
-            cancelBtn = Object.assign(document.createElement('button'),
-            {textContent: 'Cancel', className: 'deny-btn'})
+            if(!toggled){
+                toggled=true
+                const dialog = document.createElement('div')
+                dialog.innerHTML = `<%- include('dialog') %>`
 
-            dialog.append(deleteBtn, cancelBtn)
-            document.body.append(dialog)
+                deleteBtn = Object.assign(document.createElement('button'),
+                {textContent: 'Delete', className: 'confirm-btn'})
+                cancelBtn = Object.assign(document.createElement('button'),
+                {textContent: 'Cancel', className: 'deny-btn'})
 
-            const inputPass = document.querySelector('input[type="password"]')
+                dialog.append(deleteBtn, cancelBtn)
+                document.body.append(dialog)
 
-            inputPass.addEventListener('keyup',(e)=>{
-                if(e.key=='Enter'){
-                    tryDelete(e.target.value)
+                const inputPass = document.querySelector('input[type="password"]')
+
+                inputPass.addEventListener('keyup',(e)=>{
+                    if(e.key=='Enter'){
+                        tryDelete(e.target.value)
+                    }
+                })
+                
+                function tryDelete(password){
+                    if(password==mockPassword){
+                        fetch(`<%= url %>`,{method:'DELETE'})
+                        .then(response=>response.json())
+                        .then(data=> {
+                            alert('Deleted succesfully')
+                            window.location.href = data.redirect
+                        })
+                        .catch(err=>{
+                            console.log(err)
+                            alert(err)
+                        })
+                    }else{
+                        alert('Password is incorrect')
+                    }
                 }
-            })
-            
-            function tryDelete(password){
-                 if(password==mockPassword){
-                    fetch(`/demographics/<%= demographic.id %> `,{method:'DELETE'})
-                    .then(response=>response.json())
-                    .then(data=> {
-                        alert('Deleted succesfully')
-                        window.location.href = data.redirect
-                    })
-                    .catch(err=>{
-                        console.log(err)
-                        alert(err)
-                    })
-                }else{
-                    alert('Password is incorrect')
-                }
+                cancelBtn.addEventListener('click',(e)=>{
+                    toggled=false
+                    e.target.parentElement.remove()
+                })
+                deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+
             }
-            cancelBtn.addEventListener('click',(e)=>e.target.parentElement.remove())
-            deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+            
              
         })
     </script>
