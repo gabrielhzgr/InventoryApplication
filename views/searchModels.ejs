@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+    <h1><%= title %></h1>
+    <form action="/all-models" method="GET">
+        <div>
+            <label for="description">Description</label>
+            <textarea name="description" id="description" rows="3" cols="15"></textarea>
+        </div>
+        <div>
+            <label for="tags">Tags</label>
+            <div id="tags">
+                <% tags.forEach(tag=>{ %>
+                    <label for="<%= tag.id %>"><%= tag.name %></label>
+                    <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>">
+                <% }) %>
+            </div>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>

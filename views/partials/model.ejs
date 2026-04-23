@@ -13,4 +13,16 @@
             <h3>Brand</h3>
             <p><%= model.name %></p>
         </div>
+        <div>
+            <h3>Tags</h3>
+            <% if(modTags.length>0){ %>
+                <ul>
+                    <% modTags.forEach(tag=>{ %>
+                        <% if(tag.model_id == model.id){ %>
+                            <li><%= tag.name %></li>
+                        <% }%>
+                    <% }) %>
+                </section>
+            <% } %>
+        </div>
 </article> 

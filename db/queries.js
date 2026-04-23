@@ -18,6 +18,13 @@ async function getDemoModels(id){
     return rows
 }
 
+async function getFilteredModels(description, tags) {
+    const {rows} = await pool.query(`SELECT * from models JOIN demographics ON demographics.id=demo_id 
+        JOIN brands ON brands.id=brand_id WHERE description ILIKE ('%' || $1 || '%') AND models.id IN (SELECT model_id FROM models_tags WHERE tag_id = ANY($2))`,
+        [description, tags])
+    return rows
+}
+
 async function getBrand(id) {
     const {rows} = await pool.query('SELECT * FROM brands WHERE id=$1', [id])
     return rows
@@ -41,6 +48,11 @@ async function deleteDemographic(id){
     return result
 }
 
+async function createNewBrand(name) {
+    const result = await pool.query('INSERT INTO brands(name) VALUES($1)',[name])
+    return result
+}
+
 async function deleteBrand(id) {
      const query = `
     WITH cte1 AS (SELECT id FROM models WHERE brand_id=$1),
@@ -61,8 +73,24 @@ async function getModel(id) {
 async function getAllModels() {
     const {rows} = await pool.query('SELECT models.id, description,gender,name from models JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id')
     return rows
-
 }
+
+async function getTagsByModel(modelId){
+    const {rows} = await pool.query('SELECT * FROM models_tags JOIN tags ON model_id=id WHERE model_id=$1',[modelId])
+    return rows
+}
+
+async function getAllColors(){
+    const {rows} = await pool.query('SELECT DISTINCT color FROM shoes')
+    return rows
+}
+
+
+async function getAllSizes(){
+    const {rows} = await pool.query('SELECT DISTINCT size FROM shoes')
+    return rows
+}
+
 
 async function getAllShoes() {
     const {rows} = await pool.query('SELECT sku, color, size, price, units_in_stock, description  FROM shoes JOIN models ON model_id=id')
@@ -85,8 +113,8 @@ async function createNewModel(description, brandId, demoId, tags) {
     const {rows} = await pool.query(`SELECT * FROM createModel($1, $2, $3, $4)`, 
         [description, brandId, demoId, tags])
     return rows
-}
 
+}
 
 async function getAllBrands(){
     const {rows} = await pool.query('SELECT * FROM brands')
@@ -98,18 +126,30 @@ async function getAllTags(){
     return rows
 }
 
+async function getAllModelsTags(params) {
+    const { rows } = await pool.query('SELECT * FROM models_tags JOIN tags ON tag_id=id')
+    return rows
+}
+
+
+
 
 module.exports = {
     getAllDemographics,
     getAllBrands, 
     getAllTags, 
+    getAllModelsTags,
     getDemographic, 
     getDemoModels,
     getAllModels,
     getModel,
     getAllShoes,
     getShoesByModel,
+    getFilteredModels,
     getBrand,
+    getAllColors,
+    getAllSizes,
+    createNewBrand,
     getBrandModels,
     createNewShoe,
     createNewModel,

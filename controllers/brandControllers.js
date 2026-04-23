@@ -8,11 +8,13 @@ async function getBrand(req,res){
     res.render('brand',{title:brand[0].name, models, brand: brand[0]})}
 
 function getNewForm(req,res){
+    res.render('newBrandForm',{title:'Create new Brand'})
 
 }
 
-function createNewBrand(req,res){
-    res.send('New brand created')
+async function createNewBrand(req,res){
+    const result = await db.createNewBrand(req.body.name)
+    res.redirect('/')
 }
 
 async function deleteBrand(req,res){

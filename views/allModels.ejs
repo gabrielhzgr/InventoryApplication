@@ -2,15 +2,16 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
+    <%- include('partials/header') %>
     <nav>
         <h1><%= title %></h1>
     </nav>
-        <% if(models.length>0){ %>
-            <section>
-                <% models.forEach(model=>{ %>
-                    <%- include('partials/model', {model}) %>
-                <% }) %>
-            </section>
-        <% } %>
+    <% if(models.length>0){ %>
+        <section>
+            <% models.forEach(model=>{ %>
+                <%- include('partials/model', {model, modTags}) %>
+            <% }) %>
+        </section>
+    <% } %>
 </body>
 </html>

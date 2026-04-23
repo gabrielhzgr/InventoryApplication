@@ -2,7 +2,9 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
+    <%- include('partials/header') %>
     <%- include('partials/errors') %>
+    <h1><%= title %></h1>
     <form action="/newModel" method="POST">
         <label for="description">Description</label>
         <textarea name="description" id="description" rows="3" cols="15"></textarea>

@@ -2,19 +2,13 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <nav>
-        <h1><%= title %></h1>
-        <a href="/newModel">New model</a>
-        <a href="/newShoe">New shoe</a>
-        <button>Seach for models</button>
-        <button>Search for shoes</button>
-    </nav>
-
+    <%- include('partials/header') %>
     <section>
-        <a href="/all-shoes">See all shoes</a>
-        <a href="/all-models">See all models</a>
+        <h2>Check all</h2>
+        <a href="/all-models">Models</a>
+        <a href="/all-shoes">Variations</a>
+
     </section>
-    
     <% if(Object.hasOwn(locals, 'demographics') && demographics.length>0) {%>
     <section>
         <h2>Shoes for:</h2>

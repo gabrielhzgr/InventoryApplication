@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <%- include('partials/header') %>
+    <h1><%= title %></h1>
+    <form action="/all-shoes" method="GET">
+        <div>
+            <h2>Colors</h2>
+            <div>
+                <% colors.forEach(color=>{ %>
+                    <label for="<%= color %>"><%= color %></label>
+                    <input type="checkbox" id="<%= color %>" name="colors" value="<%= color %>">
+                <% }) %>
+            </div>  
+        </div>
+        <div>
+            <label for="sizes">Sizes</label>
+            <div id="sizes">
+                <% sizes.forEach(size=>{ %>
+                    <label for="<%= size %>"><%= size %></label>
+                    <input type="checkbox" id="<%= size %>" name="sizes" value="<%= size %>">
+                <% }) %>
+            </div>  
+        </div>
+        <div>
+            <label for="price">Price</label>
+            <div id="price">
+                <label for="min-price">Minimum</label>
+                <input type="text" id="minPrice" name="minPrice" type="number">
+                <label for="max-price" type="number">Maximum</label>
+                <input type="text" id="maxPrice" name="maxPrice" type="number">
+            </div>
+        </div>
+        <div>
+            <label for="in-stock">In stock</label>
+            <div id="in-stock">
+                <label for="min-stock">Minimum</label>
+                <input type="number" id="min-stock" name="minStock" type="number" min="0" step="1">
+                <label for="max-stock" type="number">Maximum</label>
+                <input type="number" id="max-stock" name="maxStock" type="number" min="0" step="1">
+            </div>
+        </div>
+        <button type="submit">Search</button>
+    </form>
+</body>
+</html>
+
+
+
