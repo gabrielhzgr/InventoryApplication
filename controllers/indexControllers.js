@@ -45,21 +45,29 @@ async function getAllShoes(req,res){
     let {minPrice} = req.query
     minPrice = Number(minPrice)
     let {maxPrice} = req.query
-    maxPrice = Number(maxPrice)
+    if(maxPrice==''){
+        maxPrice='Infinity'
+    }else{
+        maxPrice = Number(maxPrice)
+    }
     let{minStock} = req.query
     minStock = Number(minStock)
     let {maxStock} = req.query
-    maxStock = Number(maxStock)
+    if(maxStock==''){
+        maxStock='Infinity'
+    }else{
+        maxStock = Number(maxPrice)
+    }
     const {sizes} = req.query
     
-    if(colors || minPrice || maxPrice || minStock || maxStock || sizes){
-        const shoes = db.getFilteredShoes(colors, minPrice, maxPrice,minStock, maxStock, sizes )
+    if(minPrice || maxPrice || minStock || maxStock || colors || sizes){
+        const shoes = db.getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes)
+        res.r
 
-        console.log(req.query);
+        
     }else if(req.query.modelId){
         const shoes = await db.getShoesByModel(Number(req.query.modelId))
-        const model = await db.getModel(Number(req.query.modelId))
-        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes})
+        res.render('allShoes',{title: `All Shoe Stock for ${shoes[0].description}`, shoes})
         return
     }
     const shoes = await db.getAllShoes()
@@ -75,9 +83,6 @@ async function getAllModels(req,res){
     const {description} = req.query
     let {tags} = req.query
     if (description || tags) {
-        if(!tags){
-            tags = []
-        }
         const models = await db.getFilteredModels(description, tags)
         const modTags = await db.getAllModelsTags()
         res.render('allModels',{title: 'All models', models, modTags})

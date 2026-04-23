@@ -7,7 +7,7 @@
     <% if(models.length>0){ %>
         <section>
             <% models.forEach(model=>{ %>
-                <%- include('partials/model', {model}) %>
+                <%- include('partials/model', {model, modTags}) %>
             <% }) %>
         </section>
     <% } %>

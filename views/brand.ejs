@@ -9,7 +9,7 @@
             <section>
                 <% models.forEach(model=>{ %>
                    
-                    <%- include('partials/model', {model}) %>
+                    <%- include('partials/model', {model, modTags}) %>
                 <% }) %>
             </section>
         <% } %>

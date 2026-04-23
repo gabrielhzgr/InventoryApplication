@@ -5,7 +5,8 @@ async function getBrand(req,res){
     brandId = Number(brandId)
     const brand= await db.getBrand(brandId) 
     const models = await db.getBrandModels(brandId)
-    res.render('brand',{title:brand[0].name, models, brand: brand[0]})}
+    const modTags = await db.getAllModelsTags()
+    res.render('brand',{title:brand[0].name, models, brand: brand[0], modTags})}
 
 function getNewForm(req,res){
     res.render('newBrandForm',{title:'Create new Brand'})
