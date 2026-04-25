@@ -42,7 +42,10 @@ async function getNewShoeForm(req,res){
 }
 
 async function getAllShoes(req,res){
-    const {colors} = req.query
+    let {colors} = req.query
+    if(colors && !Array.isArray(colors)){
+        colors = [colors]
+    }
     let {minPrice} = req.query
     minPrice = Number(minPrice)
     let {maxPrice} = req.query
@@ -59,7 +62,10 @@ async function getAllShoes(req,res){
     }else{
         maxStock = Number(maxPrice)
     }
-    const {sizes} = req.query
+    let {sizes} = req.query
+    if(sizes && !Array.isArray(sizes)){
+        sizes = [sizes]
+    }
     
     if(minPrice || maxPrice || minStock || maxStock || colors || sizes){
         const shoes = await db.getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes)

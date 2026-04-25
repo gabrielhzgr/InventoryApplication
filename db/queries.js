@@ -40,15 +40,10 @@ async function getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, 
         const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock, colors])
         return rows
     }else{
-        query+=`AND color=ANY($5)`
-        query+=`AND size=ANY($6)`    
+        query+=`AND (color=ANY($5) OR size=ANY($6))`
         const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock, colors, sizes])
         return rows   
     }
-        
-    
-
-    
 }
 
 async function getBrand(id) {
