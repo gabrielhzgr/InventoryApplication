@@ -30,18 +30,25 @@ async function getFilteredModels(description, tags) {
 
 async function getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes) {
     let query = `SELECT color, size, price, units_in_stock, description FROM shoes JOIN models
-    ON model_id=id WHERE price>=$1 AND price<=$2 AND units_in_stock>=$3 AND units_in_stock<=$4 
-    `
-    if(colors){
-        query+=`AND color=ANY($5)`
-    }
+    ON model_id=id WHERE price>=$1 AND price<=$2 AND units_in_stock>=$3 AND units_in_stock::float<=$4 `
 
-    if(sizes){
-        query+=`AND size=ANY($6)`       
+    if(!colors && !sizes){
+        const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock])
+        return rows
+    }else if(colors && !sizes){
+        query+=`AND color=ANY($5)`
+        const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock, colors])
+        return rows
+    }else{
+        query+=`AND color=ANY($5)`
+        query+=`AND size=ANY($6)`    
+        const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock, colors, sizes])
+        return rows   
     }
+        
     
-    const {rows} = await pool.query(query, [minPrice, maxPrice, minStock, maxStock, colors, sizes])
-    return rows
+
+    
 }
 
 async function getBrand(id) {
@@ -165,6 +172,7 @@ module.exports = {
     getAllShoes,
     getShoesByModel,
     getFilteredModels,
+    getFilteredShoes,
     getBrand,
     getAllColors,
     getAllSizes,

@@ -7,7 +7,7 @@
     <h1><%= title %></h1>
     <form action="/newModel" method="POST">
         <label for="description">Description</label>
-        <textarea name="description" id="description" rows="3" cols="15"></textarea>
+        <textarea name="description" id="description" rows="2" cols="20" required></textarea>
         <label for="brandId">Brand</label>
         <select name="brandId" id="brandId">
              <% brands.forEach(brand=>{ %>

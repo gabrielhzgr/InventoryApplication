@@ -6,6 +6,7 @@ const app = express()
 const indexRouter = require('./routes/indexRoutes')
 const brandRouter = require('./routes/brandRoutes')
 const demogRouter = require('./routes/demogRoutes')
+const { error } = require('node:console')
 
 const PORT = 3000
 app.listen(PORT,(error)=>{
@@ -26,5 +27,9 @@ app.use('/',indexRouter)
 app.use('/brands',brandRouter)
 app.use('/demographics',demogRouter)
 
+app.use((err,req,res, next)=>{
+    console.log(err);
+    res.status(err.statusCode || 500).render('errorPage', {title: 'Error', errors: [{msg: err.message}], url: req.originalUrl})
+})
 
 
