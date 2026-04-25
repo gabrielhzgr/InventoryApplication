@@ -86,6 +86,9 @@ async function getAllModels(req,res){
     const {description} = req.query
     let {tags} = req.query
     if (description || tags) {
+        if(tags && !Array.isArray(tags)){
+            tags = [tags]
+        }
         const models = await db.getFilteredModels(description, tags)
         const modTags = await db.getAllModelsTags()
         res.render('allModels',{title: 'All models', models, modTags})

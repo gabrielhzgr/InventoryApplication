@@ -19,13 +19,20 @@ async function getDemoModels(id){
 }
 
 async function getFilteredModels(description, tags) {
-    const {rows} = await pool.query(`SELECT * from models JOIN demographics ON demographics.id=demo_id 
-        JOIN brands ON brands.id=brand_id WHERE description ILIKE ('%' || $1 || '%') AND models.id IN (SELECT model_id FROM models_tags WHERE tag_id = ANY($2))`,
-        [description, tags])
+    let query = ''
+    if(!tags){
+        query += `SELECT * from models JOIN demographics ON demographics.id=demo_id 
+        JOIN brands ON brands.id=brand_id WHERE description ILIKE ('%' || $1 || '%')`
+        const {rows} = await pool.query(query,[description])
+        return rows
+    }else{
+        query+=`AND models.id IN (SELECT model_id FROM models_tags WHERE tag_id = ANY($2))`
+        const {rows} = await pool.query(query,[description, tags])
+        return rows
         //My searching logic for tags is that a model must have any of the checked tags by the user
         //If we wanted to look only for models that had ALL the tags
         //we would replace last condition with AND models.id = ALL(SELECT tag_id FROM models_tags WHERE tag_id = ANY($2))
-    return rows
+    }
 }
 
 async function getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes) {
