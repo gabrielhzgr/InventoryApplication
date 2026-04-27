@@ -12,7 +12,7 @@ async function getDemographic(id){
 
 async function getDemoModels(id){
     
-    const {rows} = await pool.query(`SELECT models.id, description,gender,name from models 
+    const {rows} = await pool.query(`SELECT models.id, description,name,name from models 
         JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE demo_id=$1`
         , [id])
     return rows
@@ -81,6 +81,11 @@ async function createNewBrand(name) {
     return result
 }
 
+async function createNewDemo(name) {
+    const result = await pool.query('INSERT INTO demographics(demo) VALUES($1)',[name])
+    return result
+}
+
 async function deleteBrand(id) {
      const query = `
     WITH cte1 AS (SELECT id FROM models WHERE brand_id=$1),
@@ -99,12 +104,7 @@ async function getModel(id) {
 }
 
 async function getAllModels() {
-    const {rows} = await pool.query('SELECT models.id, description,gender,name from models JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id')
-    return rows
-}
-
-async function getTagsByModel(modelId){
-    const {rows} = await pool.query('SELECT * FROM models_tags JOIN tags ON model_id=id WHERE model_id=$1',[modelId])
+    const {rows} = await pool.query('SELECT models.id, description,demographics.demo,brands.name from models JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id')
     return rows
 }
 
@@ -182,6 +182,7 @@ module.exports = {
     getBrandModels,
     createNewShoe,
     createNewModel,
+    createNewDemo,
     deleteDemographic,
     deleteBrand
 }

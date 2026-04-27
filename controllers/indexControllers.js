@@ -100,6 +100,7 @@ async function getAllModels(req,res){
 
     res.render('allModels',{title: 'All models', models, modTags})
 }
+
 const validateShoe = [
     body('color').trim()
         .isLength({min:1, max: 25}).withMessage('Color must be between 1 and 25 characters'),
@@ -123,8 +124,8 @@ const createNewShoe = [
             sizes = sizes.map(size=>size.size)
             res.status(404).render('newShoeForm',{title:'Add new shoe', models, tags, colors, sizes, errors: err})
         }  
-        const {color, size, price, modelId, unitsInStock} = req.body
-        const result = await db.createNewShoe(color, size, Number(price), Number(modelId), Number(unitsInStock))
+        let {color, size, price, modelId, unitsInStock} = req.body
+        const result = await db.createNewShoe(color.trim(), size.trim(), Number(price), Number(modelId), Number(unitsInStock))
         res.redirect(`/all-shoes?modelId=${modelId}`)
     }
 ]
@@ -145,7 +146,7 @@ const createNewModel = [
         if(!tags){
             tags=[]
         }
-        const result = await db.createNewModel(description, Number(brandId), Number(demoId), tags)
+        const result = await db.createNewModel(description.trim(), Number(brandId), Number(demoId), tags)
         res.redirect('/all-models')
     }
 ]

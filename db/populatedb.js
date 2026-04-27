@@ -6,7 +6,7 @@ const SQL = `
 
 CREATE TABLE IF NOT EXISTS demographics (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  gender VARCHAR(255) NOT NULL UNIQUE
+  demo VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS brands (
@@ -49,7 +49,7 @@ VALUES
   ('Charly'),
   ('Puma');
 
-INSERT INTO demographics (gender) 
+INSERT INTO demographics (demo) 
 VALUES 
   ('unisex kid'), 
   ('unisex adult'), 

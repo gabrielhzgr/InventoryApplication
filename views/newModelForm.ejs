@@ -17,7 +17,7 @@
         <label for="demoId">Demographic</label>
         <select name="demoId" id="demoId">
             <% demographics.forEach(demographic=>{ %>
-                <option value=<%= demographic.id %>><%= demographic.gender %></option>
+                <option value=<%= demographic.id %>><%= demographic.name %></option>
             <% }) %>
         </select>
         <div>
