@@ -13,6 +13,15 @@ async function getSearchModelsForm(req,res) {
     res.render('searchModels',{title: 'Search Models', tags})
 }
 
+async function getEditModelForm(req, res) {
+    const {modelId} = req.params
+    const model = await db.getModel(modelId)
+    const brands = await db.getAllBrands()
+    const demographics = await db.getAllDemographics()
+    const modTags = db.getAllTags()
+    res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics})
+}
+
 async function getSearchVariationsForm(req,res) {
     let colors = await db.getAllColors()
     let sizes = await db.getAllSizes()
@@ -162,6 +171,7 @@ module.exports = {
      getAllShoes, 
      getAllModels, 
      getSearchModelsForm,
+     getEditModelForm,
      createNewShoe, 
      createNewModel,
      getSearchVariationsForm,

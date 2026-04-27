@@ -3,6 +3,7 @@ const indexRouter = express.Router()
 const indexControllers = require('../controllers/indexControllers')
 
 indexRouter.get('/',indexControllers.getIndex)
+indexRouter.get('/models/edit/:modelId', indexControllers.getEditModelForm)
 indexRouter.get('/newModel',indexControllers.getNewModelForm)
 indexRouter.get('/newShoe',indexControllers.getNewShoeForm)
 indexRouter.get('/all-shoes',indexControllers.getAllShoes)

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('partials/head') %>
+<body>
+    <form action="">
+        <label for="description">Description</label>
+        <input type="text" value="<%= model.description %>" required>
+        <label for="brandId">Brand</label>
+        <select name="brandId" id="brandId">
+            <% brands.forEach(brand=>{ %>
+                <% if(brand.id==model.brand_id) {%>
+                    <option value="<%= brand.id %>" selected><%= brand.name %></option>
+                <% }else{ %>
+                    <option value="<%= brand.id %>"><%= brand.name %></option>
+                <% } %>
+            <% }) %>
+        </select>
+        <label for="demoId">Demographic</label>
+        <select name="demoId" id="demoId">
+            <% demographics.forEach(demographic=>{ %>
+                <% if(demographic.id==model.demo_id) {%>
+                    <option value="<%= demographic.id %>" selected><%= demographic.demo %></option>
+                <% }else{ %>
+                    <option value="<%= demographic.id %>"><%= demographic.demo %></option>
+                <% } %>
+            <% }) %>
+        </select>
+    </form>
+    
+</body>
+</html>
