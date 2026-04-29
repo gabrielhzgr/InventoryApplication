@@ -124,6 +124,11 @@ async function getShoeById(id){
     return rows
 }
 
+async function deleteShoe(sku) {
+    const result = await pool.query(`DELETE FROM shoes WHERE sku=$1`, [sku])
+    return result
+}
+
 async function getAllModels() {
     const {rows} = await pool.query('SELECT models.id, description,demographics.demo,brands.name from models JOIN demographics ON demographics.id=demo_id JOIN brands ON brands.id=brand_id')
     return rows
@@ -147,7 +152,7 @@ async function getAllShoes() {
 }
 
 async function getShoesByModel(id) {
-    const {rows} = await pool.query(`SELECT sku, color, size, price, units_in_stock, description  FROM shoes JOIN models ON model_id=id WHERE model_id=$1`,[id])
+    const {rows} = await pool.query(`SELECT sku, color, size, price, units_in_stock,model_id, description  FROM shoes JOIN models ON model_id=id WHERE model_id=$1`,[id])
     return rows
 }
 
@@ -195,6 +200,7 @@ module.exports = {
     updateShoe,
     getModel,
     getShoeById,
+    deleteShoe,
     getAllShoes,
     getShoesByModel,
     getFilteredModels,

@@ -129,71 +129,8 @@
         colorSelection()
         sizeSelection()
     </script>
-    <script>
-        const mockPassword = 'adminpassword'
-        let toggled = false   
-        const myForm = document.querySelector('form')
-        myForm.addEventListener('submit',(e)=>{
-            e.preventDefault();
-            if(!toggled){
-                toggled=true
-                const dialog = document.createElement('div')
-                dialog.innerHTML = `Confirm changes? <label for="password">Write adminpassword to proceed: </label><input id='password' type="password">`
-
-                editBtn = Object.assign(document.createElement('button'),
-                {textContent: 'Confirm', className: 'confirm-btn'})
-                cancelBtn = Object.assign(document.createElement('button'),
-                {textContent: 'Cancel', className: 'deny-btn'})
-
-                dialog.append(editBtn, cancelBtn)
-                document.body.append(dialog)
-
-                const inputPass = document.querySelector('input[type="password"]')
-
-                inputPass.addEventListener('keyup',(e)=>{
-                    if(e.key=='Enter'){
-                        tryEdit(e.target.value)
-                    }
-                })
-                
-                function tryEdit(password){
-                    if(password==mockPassword){
-
-                        let data = new FormData(myForm)
-                        let myData = {}
-                        for(const [key,value] of data.entries()){
-                            if(key in myData){
-                                myData[key] = [...myData[key], value]
-                            }else{
-                                myData[key] = value
-                            }
-                        }
-                        fetch(`/shoes/edit`,{ headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json'
-                        }, method:'POST', body: JSON.stringify(myData)})
-                        .then(response=>response.json())
-                        .then(data=> {
-                            alert('Edited succesfully')
-                            window.location.href = data.redirect
-                        })
-                        .catch(err=>{
-                            console.log(err)
-                            alert(err)
-                        })
-                    }else{
-                        alert('Password is incorrect')
-                    }
-                }
-                cancelBtn.addEventListener('click',(e)=>{
-                    toggled=false
-                    e.target.parentElement.remove()
-                })
-                editBtn.addEventListener('click',(e)=>{tryEdit(inputPass.value)})
-
-            }   
-        })
-    </script> 
+    <%- include('partials/confirmEdit', {url: '/shoes/edit'}) %>
+    
 
 </body>
 </html>

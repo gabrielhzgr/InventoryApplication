@@ -13,8 +13,6 @@ async function getSearchModelsForm(req,res) {
     res.render('searchModels',{title: 'Search Models', tags})
 }
 
-
-
 async function getEditModelForm(req, res) {
     const {modelId} = req.params
     const model = await db.getModel(Number(modelId))
@@ -220,8 +218,11 @@ const updateShoe = [validateShoe,
     }
 ]
 
-function deleteShoe(req,res){
-    res.send('Shoe deleted'+req.params.id)
+async function deleteShoe(req,res){
+    const {sku} = req.params
+    const result = await db.deleteShoe(sku)
+    const {modelId} = req.query
+    res.json({redirect:`/all-shoes?modelId=${modelId}`})
 }
 
 module.exports = {
