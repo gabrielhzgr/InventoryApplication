@@ -13,14 +13,18 @@ async function getSearchModelsForm(req,res) {
     res.render('searchModels',{title: 'Search Models', tags})
 }
 
+
+
 async function getEditModelForm(req, res) {
     const {modelId} = req.params
-    const model = await db.getModel(modelId)
+    const model = await db.getModel(Number(modelId))
     const brands = await db.getAllBrands()
     const demographics = await db.getAllDemographics()
-    const modTags = db.getAllTags()
+    const modTags = await db.getAllModelsTags()
     res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics})
 }
+
+
 
 async function getSearchVariationsForm(req,res) {
     let colors = await db.getAllColors()
@@ -48,6 +52,17 @@ async function getNewShoeForm(req,res){
     sizes = sizes.map(size=>size.size)
 
     res.render('newShoeForm',{title:'Add new shoe', models, tags, colors, sizes})
+}
+
+async function getEditShoeForm(req, res) {
+    const shoe = await db.getShoeById(req.params.shoeId)
+    const models  = await db.getAllModels()
+    let colors = await db.getAllColors()
+    colors = colors.map(color=>color.color)
+    let sizes = await db.getAllSizes()
+    sizes = sizes.map(size=>size.size)
+
+    res.render('editShoe',{title:'Edit shoe', shoe: shoe[0], models, colors, sizes})
 }
 
 async function getAllShoes(req,res){
@@ -102,6 +117,11 @@ async function getAllModels(req,res){
         const modTags = await db.getAllModelsTags()
         res.render('allModels',{title: 'All models', models, modTags})
         return
+    }else if(req.query.modelId){
+        const models = await db.getModel(req.query.modelId)
+        const modTags = await db.getAllModelsTags()
+        res.render('allModels',{title: 'All models', models, modTags})
+        return
     }
 
     const models = await db.getAllModels()
@@ -126,12 +146,11 @@ const createNewShoe = [
         const errors = validationResult(req)   
         if(!errors.isEmpty()){
             const models  = await db.getAllModels()
-            const tags = await db.getAllTags()
             let colors = await db.getAllColors()
             colors = colors.map(color=>color.color)
             let sizes = await db.getAllSizes()
             sizes = sizes.map(size=>size.size)
-            res.status(404).render('newShoeForm',{title:'Add new shoe', models, tags, colors, sizes, errors: err})
+            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
         }  
         let {color, size, price, modelId, unitsInStock} = req.body
         const result = await db.createNewShoe(color.trim(), size.trim(), Number(price), Number(modelId), Number(unitsInStock))
@@ -160,6 +179,47 @@ const createNewModel = [
     }
 ]
 
+const updateModel = [validateModel, 
+    async (req,res)=>{
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            const {modelId} = req.params
+            const model = await db.getModel(modelId)
+            const brands = await db.getAllBrands()
+            const demographics = await db.getAllDemographics()
+            const modTags = db.getAllTags()
+            res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics, errors})
+            return
+        }
+        let {id, description, brandId, demoId, tags} = req.body
+        if(!tags){
+            tags = []
+        }
+
+        const result = await db.updateModel(Number(id), description, Number(brandId), Number(demoId), tags)
+        res.json({redirect: `/all-models?modelId=${id}`})
+        
+    } 
+]
+
+const updateShoe = [validateShoe, 
+    async (req,res)=> {
+        const errors = validationResult(req)   
+        if(!errors.isEmpty()){
+            const shoe = await db.getShoeById(req.params.shoeId)
+            const models  = await db.getAllModels()
+            let colors = await db.getAllColors()
+            colors = colors.map(color=>color.color)
+            let sizes = await db.getAllSizes()
+            sizes = sizes.map(size=>size.size)
+            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
+        }  
+        let {id, color, size, price, modelId, unitsInStock} = req.body
+        const result = await db.updateShoe(Number(id), color.trim(), size.trim(), Number(price), Number(modelId), Number(unitsInStock))
+        res.json({redirect:`/all-shoes?modelId=${modelId}`})
+    }
+]
+
 function deleteShoe(req,res){
     res.send('Shoe deleted'+req.params.id)
 }
@@ -169,11 +229,14 @@ module.exports = {
      getNewModelForm, 
      getNewShoeForm, 
      getAllShoes, 
+     getEditShoeForm,
      getAllModels, 
      getSearchModelsForm,
      getEditModelForm,
      createNewShoe, 
      createNewModel,
+     updateModel,
+     updateShoe,
      getSearchVariationsForm,
      deleteShoe
 }

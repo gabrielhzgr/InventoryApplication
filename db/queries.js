@@ -35,6 +35,20 @@ async function getFilteredModels(description, tags) {
     }
 }
 
+async function updateModel(id, description, brandId, demoId, tags) {
+    const {rows} = await pool.query(`SELECT * FROM updateModel($1, $2, $3, $4, $5)`, 
+        [id, description, brandId, demoId, tags])
+    return rows
+}
+
+async function updateShoe(id, color, size, price, modelId, inStock) {
+    const {rows} = await pool.query(`UPDATE shoes SET(color, size, price, model_id, units_in_stock) 
+        = ($2, $3, $4, $5, $6) WHERE sku=$1`, 
+        [id, color, size, price, modelId, inStock])
+    return rows
+}
+
+
 async function getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes) {
     let query = `SELECT color, size, price, units_in_stock, description FROM shoes JOIN models
     ON model_id=id WHERE price>=$1 AND price<=$2 AND units_in_stock>=$3 AND units_in_stock::float<=$4 `
@@ -99,7 +113,14 @@ async function deleteBrand(id) {
 }
 
 async function getModel(id) {
-    const {rows} = await pool.query('SELECT * FROM models WHERE id=$1',[id])
+    const {rows} = await pool.query(`SELECT models.id, description,
+        demographics.demo,brands.name from models JOIN demographics 
+        ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE models.id=$1`,[id])
+    return rows
+}
+
+async function getShoeById(id){
+     const {rows} = await pool.query(`SELECT * from shoes WHERE sku=$1`,[id])
     return rows
 }
 
@@ -170,7 +191,10 @@ module.exports = {
     getDemographic, 
     getDemoModels,
     getAllModels,
+    updateModel,
+    updateShoe,
     getModel,
+    getShoeById,
     getAllShoes,
     getShoesByModel,
     getFilteredModels,

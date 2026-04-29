@@ -1,5 +1,4 @@
 require('dotenv').config()
-
 const express = require('express')
 const path = require('node:path')
 const app = express()
@@ -7,6 +6,7 @@ const indexRouter = require('./routes/indexRoutes')
 const brandRouter = require('./routes/brandRoutes')
 const demogRouter = require('./routes/demogRoutes')
 const { error } = require('node:console')
+const { getBrandModels } = require('./db/queries')
 
 const PORT = 3000
 app.listen(PORT,(error)=>{
@@ -19,6 +19,7 @@ app.listen(PORT,(error)=>{
 const assetsPath = path.join(__dirname,'public')
 app.use(express.static(assetsPath))
 app.use(express.urlencoded({extended:true}))
+app.use(express.json())
 
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine','ejs')
