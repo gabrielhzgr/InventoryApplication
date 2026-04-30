@@ -13,9 +13,9 @@ indexRouter.post('/shoes/edit/',indexControllers.updateShoe)
 indexRouter.get('/all-models',indexControllers.getAllModels)
 indexRouter.post('/newShoe',indexControllers.createNewShoe)
 indexRouter.delete('/shoes/delete/:sku', indexControllers.deleteShoe)
+indexRouter.delete('/models/delete/:modelId',indexControllers.deleteModel)
 indexRouter.post('/newModel',indexControllers.createNewModel)
 indexRouter.get('/search-models', indexControllers.getSearchModelsForm)
 indexRouter.get('/search-variations',indexControllers.getSearchVariationsForm)
-indexRouter.delete('/:shoeId',indexControllers.deleteShoe)
 
 module.exports = indexRouter

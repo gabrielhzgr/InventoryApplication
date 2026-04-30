@@ -112,6 +112,17 @@ async function deleteBrand(id) {
     return result
 }
 
+async function deleteModel(id) {
+    const query = `
+    WITH dt1 AS (DELETE FROM models_tags WHERE model_id=$1),
+         dt2 AS (DELETE FROM shoes WHERE model_id=$1),
+         dt3 AS (DELETE FROM models WHERE id=$1)
+    SELECT * FROM models WHERE id=$1;
+    `
+    const result = await pool.query(query, [id])
+    return result
+}
+
 async function getModel(id) {
     const {rows} = await pool.query(`SELECT models.id, description,
         demographics.demo,brands.name from models JOIN demographics 
@@ -214,5 +225,6 @@ module.exports = {
     createNewModel,
     createNewDemo,
     deleteDemographic,
-    deleteBrand
+    deleteBrand,
+    deleteModel
 }
