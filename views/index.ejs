@@ -2,45 +2,46 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
-    <%- include('partials/header') %>
-    <section>
-        <h2>Check all</h2>
-        <a href="/all-models">Models</a>
-        <a href="/all-shoes">Variations</a>
+    <main>
+        <%- include('partials/header') %>
+        <section>
+            <h2>Check all</h2>
+            <a href="/all-models">Models</a>
+            <a href="/all-shoes">Variations</a>
 
-    </section>
-    <% if(Object.hasOwn(locals, 'demographics') && demographics.length>0) {%>
-    <section>
-        <h2>Shoes for:</h2>
-        <ul>
-            <% demographics.forEach(demographic=>{ %>
+        </section>
+        <% if(Object.hasOwn(locals, 'demographics') && demographics.length>0) {%>
+        <section>
+            <h2>Shoes for:</h2>
+            <ul>
+                <% demographics.forEach(demographic=>{ %>
+                    <li>
+                        <a href="/demographics/<%= demographic.id %>"> 
+                            <%= demographic.demo %>
+                        </a>
+                    </li>
+                <% }) %>
+            </ul>
+            <a href="/demographics/new">New</a>
+        </section>
+        <% } %>
+
+        <% if(Object.hasOwn(locals, 'brands') && brands.length>0) {%>
+        <section>
+            <h2>Brands</h2>
+            <ul>
+            <% brands.forEach(brand=>{ %>
                 <li>
-                    <a href="/demographics/<%= demographic.id %>"> 
-                        <%= demographic.demo %>
+                    <a href="/brands/<%= brand.id %>"> 
+                        <%= brand.name %>
                     </a>
                 </li>
             <% }) %>
-        </ul>
-        <a href="/demographics/new">New</a>
-    </section>
-    <% } %>
-
-    <% if(Object.hasOwn(locals, 'brands') && brands.length>0) {%>
-    <section>
-        <h2>Brands</h2>
-        <ul>
-        <% brands.forEach(brand=>{ %>
-            <li>
-                <a href="/brands/<%= brand.id %>"> 
-                    <%= brand.name %>
-                </a>
-            </li>
-        <% }) %>
-        </ul>
-        <a href="/brands/new">New</a>
-    </div>
-    
-    <% } %>
-    
+            </ul>
+            <a href="/brands/new">New</a>
+        </section>
+        
+        <% } %>
+    </main>
 </body>
 </html>
