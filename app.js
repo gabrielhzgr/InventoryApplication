@@ -30,7 +30,7 @@ app.use('/demographics',demogRouter)
 
 app.use((err,req,res, next)=>{
     console.log(err);
-    res.status(err.statusCode || 500).render('errorPage', {title: 'Error', errors: [{msg: err.message}], url: req.originalUrl})
+    res.status(err.statusCode || 500).render('errorPage', {title: 'Error', errorMessage: err.message, url: req.originalUrl})
 })
 
 
