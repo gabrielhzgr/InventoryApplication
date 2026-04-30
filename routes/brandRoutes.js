@@ -6,6 +6,7 @@ brandRouter.get('/',(req,res)=>res.send('Brand'))
 brandRouter.get('/new',brandControllers.getNewForm)
 brandRouter.get('/:brandId',brandControllers.getBrand)
 brandRouter.delete('/:brandId',brandControllers.deleteBrand)
+brandRouter.delete('/delete-model/:modelId', brandControllers.deleteModelInBrand)
 brandRouter.post('/new',brandControllers.createNewBrand)
 
 

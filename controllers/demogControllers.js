@@ -30,6 +30,14 @@ const createNewDemog = [validateDemo, async(req, res)=>{
     res.redirect('/')
 }] 
 
+async function deleteModelInDemo(req, res) {
+    const {modelId} = req.params
+    const {demoId} = req.query
+
+    const result = await db.deleteModel(modelId)
+    res.json({redirect:`/demographics/${demoId}`})
+}
+
 async function deleteDemog(req, res){
     let {demogId} = req.params
     demogId = Number(demogId)
@@ -37,4 +45,4 @@ async function deleteDemog(req, res){
     res.json({redirect:'/'})
 }
 
-module.exports = {getDemog, getNewForm, createNewDemog, deleteDemog}
+module.exports = {getDemog, getNewForm, createNewDemog, deleteDemog, deleteModelInDemo}

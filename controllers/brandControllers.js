@@ -14,6 +14,12 @@ function getNewForm(req,res){
     res.render('newBrandForm',{title:'Create new Brand'})
 
 }
+async function deleteModelInBrand(req, res) {
+    const {modelId} = req.params
+    const {brandId} = req.query
+    const result = await db.deleteModel(modelId)
+    res.json({redirect:`/brands/${brandId}`})
+}
 
 const validateBrand = body('name').trim()
     .isLength({min: 1, max: 255}).withMessage('Name must be between 1 and 255 characters')
@@ -36,4 +42,4 @@ async function deleteBrand(req,res){
     res.json({redirect:'/'})
 }
 
-module.exports = {getBrand, getNewForm, createNewBrand, deleteBrand}
+module.exports = {getBrand, getNewForm, createNewBrand, deleteBrand, deleteModelInBrand}
