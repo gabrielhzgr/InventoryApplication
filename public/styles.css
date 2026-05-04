@@ -2,12 +2,322 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+	
+}
+
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    --primary-color: #121435; 
+	--second-color: #faf9f0; 
+    --third-color: #edebca; 
+	--fourth-color: #ff5722; 
+}
+
+body{ 
+    background-color: var(--second-color);
+}
+
+a:visited { 
+    text-decoration: none;
+    color: white;
 }
 
 nav{
-    
+    padding: 10px;
+}
+
+nav > ul.actions{
+    display: none;
+}
+
+nav > h1 { 
+    transform: skew(-15deg);
+}
+
+nav > h1 > a{
+    background-color: var(--primary-color);
+    text-decoration: none;
+    color: var(--second-color);
+    box-shadow: 5px 5px 3px grey;
+}
+
+h1{
+    margin-left: 10px;
+
+}
+
+.category h2{
+    width: 100%;
+    border-bottom: medium solid var(--second-color);
+    margin-bottom: 10px;
+    color: white;
+}
+
+
+main{
+    padding: 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+section.category{
+    flex: 1;
+    border: thin solid black;
+    padding: 20px;
+    border-radius: 20px;
+    min-width: 200px;
+    max-width: 50%;
+    font-size: large;
+    background-color: var(--primary-color);
+    transform: skew(-5deg);
+    color: var(--second-color);
+    box-shadow: 5px 5px 3px grey;
+    position: relative;
+    overflow: hidden;
+}
+.new-btn{
+    position: absolute;
+    top: -7px;
+    right: 0;
+}
+
+.category  a {
+    color: var(--second-color);
+    text-decoration: none;
+    background-color: var(--second-color);
+    color: var(--primary-color);
+    box-shadow: 0px 0px 3px white;
+}
+
+.category>ul{
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+ul{
+    list-style: none;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: var(--primary-color);
+    transform: skew(-3deg);
+    color: white;
+}
+
+form > div{
+    width: 80%;
+    border-bottom: thin solid white;
+    padding: 10px;
+}
+
+form h3,label{
+    text-shadow: 0px 0px 3px white;
+    font-size: 1rem;
+}
+
+
+form button{
+    border-radius: 10px;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--second-color);
+    font-weight: bold;
+    width: fit-content;
+    padding: 10px;
+    margin: 0 auto;
+}
+
+form input, textarea{
+    padding: 15px;
+    border-bottom: medium solid white;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    background-color: rgba(128, 128, 128, 0.758);
+    outline: none;
+    transition: all 0.5s ease;
+    color: white;
+    width: 100%;
+}
+
+input.money::before{
+    content: "$";
+}
+form div.field{
+    display: flex;
+    flex-direction: column;
+}
+
+form input:focus, textarea:focus{
+    border: medium solid white;
+}
+
+.options-selector{
+    display: flex;
+}
+
+.options-selector > input{
+    width: 20px;
+    margin: 10px;
+}
+
+
+
+form label{
+    font-weight: bolder;
+    transition: all 0.7s ease;
+}
+
+form select{
+    background-color: var(--second-color);
+    color: var(--primary-color);
+}
+
+
+form button{
+    background-color: white;
+    color: var(--primary-color);
+}
+form input::placeholder{
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.578)
+}
+
+form textarea::placeholder{
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.578)
+}
+
+
+
+form textarea{
+    padding: 5px;
+}
+
+.tags{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag{
+    background-color: var(--second-color);
+    color: var(--primary-color);
+    padding: 5px;
+}
+
+form input[type="checkbox"]{
+    width: fit-content;
+}
+
+
+div.text-field{
+    position: relative;
+}
+
+div.text-field > label{
+    position: absolute;
+    opacity: 0;
+}
+
+
+div.text-field:has(input:focus) > label{
+    opacity: 1;
+    top: -15px;
+    left: 10px;
+    z-index: 1;
+    text-shadow: 0px 0px 3px black;
+}
+
+div.text-field:has(textarea:focus) > label{
+    opacity: 1;
+    top: -15px;
+    left: 10px;
+    z-index: 1;
+    text-shadow: 0px 0px 3px black;
+}
+
+div.text-field:has(input:focus ) > input::placeholder{
+    color: transparent;
+}
+
+div.text-field:has(textarea:focus) > textarea::placeholder{
+    color: transparent;
 }
 
 section{
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     
 }
+
+section > article{
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    transform: skew(-3deg);
+    color: var(--second-color);
+    overflow: hidden;
+}
+
+article > div.actions{
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+    background-color: black;
+}
+
+div.actions > h3{
+    position: absolute;
+    left:10px;
+    
+}
+
+div.actions > a{
+    background-color: var(--second-color);
+    padding: 5px;
+    border-radius: 15px;
+    text-decoration: none;
+    color: black;
+}
+
+div.actions > a:visited{
+    color: black;
+}
+
+
+article h3{
+    font-size: 1rem;
+}
+
+article h4{
+    font-size: 0.8rem;
+}
+article > div{
+    margin-bottom: 2px;
+    padding: 10px;
+    background-color: rgba(8, 48, 94, 0.758);
+}
+
+article .tags > .tag{
+    background-color: black;
+    color: white;
+}
+

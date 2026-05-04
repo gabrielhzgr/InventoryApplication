@@ -4,10 +4,17 @@
 <body>
     <%- include('partials/header') %>
     <%- include('partials/errors') %>
-    <form action="/brands/new" method="POST">
-        <label for="">Name</label>
-        <input type="text" id="name" name="name" required>
-        <button type="submit">Create</button>
-    </form>
+    <main>
+        <form action="/brands/new" method="POST">
+            <h1><%= title %></h1>
+            <div class="field text-field" >
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Name" required>  
+            </div>
+            <button type="submit">Create</button>
+        </form>
+    </main>
+    
+    
 </body>
 </html>

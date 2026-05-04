@@ -2,17 +2,34 @@
 <html lang="en">
 <%- include('partials/head') %>
 <body>
+    <%- include('partials/header') %>
     <main>
-        <%- include('partials/header') %>
-        <section>
-            <h2>Check all</h2>
-            <a href="/all-models">Models</a>
-            <a href="/all-shoes">Variations</a>
-
+        <section class="category">
+            <h2>Actions</h2>
+            <ul>
+                <li>
+                    <a href="/all-models">All Models</a>
+                </li>
+                <li>
+                    <a href="/all-shoes">All Variations</a>
+                </li>
+                <li>
+                    <a href="/search-models">Search models</a>
+                </li>
+                <li>
+                    <a href="/search-variations">Search variations</a>
+                </li>
+                <li>
+                    <a href="/newModel">New model</a>
+                </li>
+                <li>
+                    <a href="/newShoe">New variation</a>
+                </li>
+            </ul>
         </section>
         <% if(Object.hasOwn(locals, 'demographics') && demographics.length>0) {%>
-        <section>
-            <h2>Shoes for:</h2>
+        <section class="category">
+            <h2>Shoes for</h2>
             <ul>
                 <% demographics.forEach(demographic=>{ %>
                     <li>
@@ -22,12 +39,12 @@
                     </li>
                 <% }) %>
             </ul>
-            <a href="/demographics/new">New</a>
+            <a href="/demographics/new" class="new-btn">New</a>
         </section>
         <% } %>
 
         <% if(Object.hasOwn(locals, 'brands') && brands.length>0) {%>
-        <section>
+        <section class="category">
             <h2>Brands</h2>
             <ul>
             <% brands.forEach(brand=>{ %>
@@ -38,7 +55,7 @@
                 </li>
             <% }) %>
             </ul>
-            <a href="/brands/new">New</a>
+            <a href="/brands/new" class="new-btn">New</a>
         </section>
         
         <% } %>

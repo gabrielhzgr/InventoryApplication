@@ -4,12 +4,13 @@
 <body>
     <%- include('partials/header') %>
     <%- include('partials/errors') %>
-    <h1><%= title %></h1>
+    
     <form action="/newShoe" method="POST">
+        <h2><%= title %></h2>
         <div>
-            <h2>Color</h2>
+            <h3>Color</h3>
             <div> 
-                <div>
+                <div class="options-selector">
                     <label for="list">From list</label>
                     <input type="radio" id="list" name="color-selection" checked>
                     <label for="new">Other color</label>
@@ -26,9 +27,9 @@
             </div>
         </div>
         <div>
-            <h2>Size</h2>
+            <h3>Size</h3>
             <div> 
-                <div>
+                <div class="options-selector">
                     <label for="list">From list</label>
                     <input type="radio" id="list" name="size-selection" checked>
                     <label for="new">Other size</label>
@@ -45,19 +46,21 @@
                 </div>
             </div>
         </div>
-        <div>
+        <div class="field">
             <label for="price">Price</label>
-            <input id="price" name="price" type="number" min="0" step="0.01" value="0">
+            <input class="money" id="price" name="price" type="number" min="0" step="0.01" value="0">
+        
         </div>
-        <div>
+        <div class="field">
             <label for="modelId">Model</label>
-            <select name="modelId" name="modelId" id="modelId">
+            <select name="modelId" id="modelId">
                 <% models.forEach(model=>{ %>
                     <option value=<%= model.id %>><%= model.description %></option>
                 <% }) %>
             </select>
+
         </div>
-        <div>
+        <div class="field">
             <label for="unitsInStock">In stock</label>
             <input id="unitsInStock" name="unitsInStock" type="number" min="0" step="1" value="0">
         </div>

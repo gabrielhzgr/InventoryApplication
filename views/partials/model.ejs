@@ -1,28 +1,28 @@
-   <article>
-        <h2><%= model.description %></h2>
-        <div>
-            <a href="/models/edit/<%= model.id %>">Edit</a>
-            <a href="" class="delete" data-modelid="<%= model.id %>">Delete</a>
-            <a href="/all-shoes?modelId=<%= model.id %>">See stock</a>
-        </div>
-        <div>
-            <h3>Demographic</h3>
-            <p><%= model.demo %></p>
-        </div>
-        <div>
-            <h3>Brand</h3>
-            <p><%= model.name %></p>
-        </div>
-        <div>
-            <h3>Tags</h3>
-            <% if(modTags.length>0){ %>
-                <ul>
-                    <% modTags.forEach(tag=>{ %>
-                        <% if(tag.model_id == model.id){ %>
-                            <li><%= tag.name %></li>
-                        <% }%>
-                    <% }) %>
-                </section>
-            <% } %>
-        </div>
+<article>
+    <div class="actions">
+        <h3><%= model.description %></h3>
+        <a href="/models/edit/<%= model.id %>">Edit</a>
+        <a href="" class="delete" data-modelid="<%= model.id %>">Delete</a>
+        <a href="/all-shoes?modelId=<%= model.id %>">See stock</a>
+    </div>
+    <div>
+        <h4>Demographic</h4>
+        <p><%= model.demo %></p>
+    </div>
+    <div>
+        <h4>Brand</h4>
+        <p><%= model.name %></p>
+    </div>
+    <div>
+        <h4>Tags</h4>
+        <% if(modTags.length>0){ %>
+            <ul class="tags">
+                <% modTags.forEach(tag=>{ %>
+                    <% if(tag.model_id == model.id){ %>
+                        <li class="tag"><%= tag.name %></li>
+                    <% }%>
+                <% }) %>
+            </ul>
+        <% } %>
+    </div>
 </article> 

@@ -4,11 +4,15 @@
 <body>
     <%- include('partials/header') %>
     <%- include('partials/errors') %>
-    <h2><%= title %></h2>
+   
     <form action="">
+        <h2><%= title %></h2>
+        <div class="field text-field">
+            <label for="description">Description</label>
+            <input id="description" type="text" name="description" value="<%= model.description %>" required>
+        </div>
         <input type="text" name="id" value="<%= model.id %>" hidden>
-        <label for="description">Description</label>
-        <input id="description" type="text" name="description" value="<%= model.description %>" required>
+        
         <label for="brandId">Brand</label>
         <select name="brandId" id="brandId">
             <% brands.forEach(brand=>{ %>
@@ -32,7 +36,7 @@
         <div>
             <% modTags.forEach(tag=>{ %>
                 <label for="<%= tag.id %>"><%= tag.name %></label>
-                <% if(model.id==tag.model_id) {%>
+                <% if(tag.model_id) {%>
                     <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>" checked>
                 <% }else{ %>
                     <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>">

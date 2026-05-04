@@ -4,31 +4,48 @@
 <body>
     <%- include('partials/header') %>
     <%- include('partials/errors') %>
-    <h1><%= title %></h1>
-    <form action="/newModel" method="POST">
-        <label for="description">Description</label>
-        <textarea name="description" id="description" rows="2" cols="20" required></textarea>
-        <label for="brandId">Brand</label>
-        <select name="brandId" id="brandId">
-             <% brands.forEach(brand=>{ %>
-                <option value="<%= brand.id %>"><%= brand.name %></option>
-            <% }) %>
-        </select>
-        <label for="demoId">Demographic</label>
-        <select name="demoId" id="demoId">
-            <% demographics.forEach(demographic=>{ %>
-                <option value=<%= demographic.id %>><%= demographic.name %></option>
-            <% }) %>
-        </select>
-        <div>
-            <% tags.forEach(tag=>{ %>
-                <label for="<%= tag.id %>"><%= tag.name %></label>
-                <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>">
-            <% }) %>
-        </div>
-        
-        <button type="submit">Create</button>
-    </form>
+    
+    <main>
+        <form action="/newModel" method="POST">
+            <h2><%= title %></h2>
+            <div class="field text-field">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="2" cols="20" placeholder="Description" required></textarea>
+            </div>
+            <div class="field">
+                <label for="brandId">Brand</label>
+                <select name="brandId" id="brandId">
+                    <% brands.forEach(brand=>{ %>
+                        <option value="<%= brand.id %>"><%= brand.name %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="field">
+                <label for="demoId">Demographic</label>
+                <select name="demoId" id="demoId">
+                    <% demographics.forEach(demographic=>{ %>
+                        <option value=<%= demographic.id %>><%= demographic.demo %></option>
+                    <% }) %>
+                </select>
+            </div>
+            <div class="field">
+                <h3>Tags</h3>
+                <div class="tags">
+                    <% tags.forEach(tag=>{ %>
+                        <div class="tag">
+                            <label for="<%= tag.id %>"><%= tag.name %></label>
+                            <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>">
+                        </div>
+                        
+                    <% }) %>
+                </div>
 
+            </div>
+            
+            
+            
+            <button type="submit">Create</button>
+        </form>
+    </main>
 </body>
 </html>

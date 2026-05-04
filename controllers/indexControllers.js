@@ -24,8 +24,9 @@ async function getEditModelForm(req, res) {
     const model = await db.getModel(Number(modelId))
     const brands = await db.getAllBrands()
     const demographics = await db.getAllDemographics()
-    const modTags = await db.getAllModelsTags()
-    res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics})
+    const modTags = await db.getTagsForModel(modelId)
+    const tags = await db.getAllTags()
+    res.render('editModel',{title: 'Edit model', model: model[0], modTags,brands, demographics})
 }
 
 

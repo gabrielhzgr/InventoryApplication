@@ -3,16 +3,12 @@
 <%- include('partials/head') %>
 <body>
     <%- include('partials/header') %>
-    <nav>
-        <h1><%= title %></h1>
-    </nav>
-    <% if(models.length>0){ %>
-        <section>
-            <% models.forEach(model=>{ %>
-                <%- include('partials/model', {model, modTags}) %>
-            <% }) %>
-        </section>
-    <% } %>
+    <h2><%= title %></h2>
+    <section>
+        <% models.forEach((model)=> { %>
+            <%- include('partials/model', {model, modTags}); %>
+        <% }); %>
+    </section>  
     <script>
         document.querySelectorAll('a.delete').forEach(a=>{
             a.addEventListener('click',(e)=>{

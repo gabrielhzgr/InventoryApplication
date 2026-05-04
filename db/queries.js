@@ -124,8 +124,7 @@ async function deleteModel(id) {
 }
 
 async function getModel(id) {
-    const {rows} = await pool.query(`SELECT models.id, description,
-        demographics.demo,brands.name from models JOIN demographics 
+    const {rows} = await pool.query(`SELECT * from models JOIN demographics 
         ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE models.id=$1`,[id])
     return rows
 }
@@ -191,9 +190,19 @@ async function getAllTags(){
     return rows
 }
 
-async function getAllModelsTags(params) {
-    const { rows } = await pool.query('SELECT * FROM models_tags JOIN tags ON tag_id=id')
+async function getTagsForModel(modelId) {
+    //For when we want to get all the tags
+    //and also the matches for model
+    //so we can edit the model and know 
+    //what tags it had
+    const { rows } = await pool.query('SELECT * FROM tags LEFT JOIN models_tags ON tag_id=id AND model_id=$1',[modelId])
     return rows
+}
+
+async function getAllModelsTags(){
+     const { rows } = await pool.query('SELECT * FROM models_tags JOIN tags ON tag_id=tags.id')
+    return rows
+
 }
 
 
@@ -203,6 +212,7 @@ module.exports = {
     getAllDemographics,
     getAllBrands, 
     getAllTags, 
+    getTagsForModel,
     getAllModelsTags,
     getDemographic, 
     getDemoModels,
