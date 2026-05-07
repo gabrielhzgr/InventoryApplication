@@ -20,7 +20,7 @@
                     <select name="color" id="color-list">
                         <% colors.forEach(color=>{ %>
                             <% if(color==shoe.color){ %>
-                                <option value="<%= color %>" selected><%= color %></option>
+                                <option class="original" value="<%= color %>" selected><%= color %></option>
                             <% }else{ %>
                                 <option value="<%= color %>"><%= color %></option>
 
@@ -44,7 +44,7 @@
                     <select name="size" id="size-list">
                         <% sizes.forEach(size=>{ %>
                             <% if(size==shoe.size){ %>
-                                <option value="<%= size %>" selected><%= size %></option>
+                                <option class="original" value="<%= size %>" selected><%= size %></option>
                             <% }else{ %>
                                 <option value="<%= size %>"><%= size %></option>
                           <% } %>
@@ -58,13 +58,14 @@
         <div>
             <label for="price">Price</label>
             <input id="price" name="price" type="number" min="0" step="0.01" value="<%= shoe.price %>">
+            <button type="button" onclick="const price = document.querySelector('#price'); price.value = price.defaultValue" class="reset button">Reset</button>
         </div>
         <div>
             <label for="modelId">Model</label>
             <select name="modelId" name="modelId" id="modelId">
                 <% models.forEach(model=>{ %>
                     <% if(model.id == shoe.model_id){ %>
-                        <option value=<%= model.id %> selected><%= model.description %></option>
+                        <option class="original" value=<%= model.id %> selected><%= model.description %></option>
                     <% }else{ %>
                         <option value=<%= model.id %>><%= model.description %></option>
                     <% } %>
@@ -74,6 +75,8 @@
         <div>
             <label for="unitsInStock">In stock</label>
             <input id="unitsInStock" name="unitsInStock" type="number" min="0" step="1" value="<%= shoe.units_in_stock %>">
+            <button type="button" onclick="const stock = document.querySelector('#unitsInStock'); stock.value = stock.defaultValue" class="reset button">Reset</button>
+
         </div>
         <button type="submit">Submit</button>
     </form>
@@ -129,7 +132,7 @@
         colorSelection()
         sizeSelection()
     </script>
-    <%- include('partials/confirmEdit', {url: '/shoes/edit'}) %>
+    <%- include('partials/confirmEdit', {url: '/shoes/edit', title: shoe.description }) %>
     
 
 </body>

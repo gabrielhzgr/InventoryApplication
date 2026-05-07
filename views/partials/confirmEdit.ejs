@@ -7,14 +7,19 @@
             if(!toggled){
                 toggled=true
                 const dialog = document.createElement('div')
-                dialog.innerHTML = `Confirm changes to <strong><%= model.description %></strong><label for="password">Write adminpassword to proceed: </label><input id='password' type="password">`
+                dialog.className = 'dialog'
+                dialog.innerHTML = `<div class="text">
+                                            <h1>Confirm changes to <%= title %>?</h1>
+                                            <div class="field">
+                                                <label for="password">Write adminpassword to proceed: </label>
+                                                <input id='password' type="password">
+                                            </div>
+                                            <div class="buttons">
+                                                <button class="confirm-btn remove button">Confirm</button>
+                                                <button class="cancel-btn button">Cancel</button>
+                                            </div>
+                                        </div>`
 
-                editBtn = Object.assign(document.createElement('button'),
-                {textContent: 'Confirm', className: 'confirm-btn'})
-                cancelBtn = Object.assign(document.createElement('button'),
-                {textContent: 'Cancel', className: 'deny-btn'})
-
-                dialog.append(editBtn, cancelBtn)
                 document.body.append(dialog)
 
                 const inputPass = document.querySelector('input[type="password"]')
@@ -55,11 +60,11 @@
                         alert('Password is incorrect')
                     }
                 }
-                cancelBtn.addEventListener('click',(e)=>{
+                document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
                     toggled=false
-                    e.target.parentElement.remove()
+                    document.querySelector('div.dialog').remove()
                 })
-                editBtn.addEventListener('click',(e)=>{tryEdit(inputPass.value)})
+                document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryEdit(inputPass.value)})
 
         }   
     })

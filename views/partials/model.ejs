@@ -1,9 +1,9 @@
 <article>
+    <h3><%= model.description %></h3>
     <div class="actions">
-        <h3><%= model.description %></h3>
-        <a href="/models/edit/<%= model.id %>">Edit</a>
-        <a href="" class="delete" data-modelid="<%= model.id %>">Delete</a>
-        <a href="/all-shoes?modelId=<%= model.id %>">See stock</a>
+        <a href="/models/edit/<%= model.id %>" class="button">Edit</a>
+        <a href="" class="delete remove button" data-modelid="<%= model.id %>">Delete</a>
+        <a href="/all-shoes?modelId=<%= model.id %>" class="button">See stock</a>
     </div>
     <div>
         <h4>Demographic</h4>

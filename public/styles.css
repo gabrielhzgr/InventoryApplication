@@ -18,6 +18,7 @@
 
 body{ 
     background-color: var(--second-color);
+    position: relative;
 }
 
 a:visited { 
@@ -68,7 +69,7 @@ main{
 section.category{
     flex: 1;
     border: thin solid black;
-    padding: 20px;
+    padding: 30px;
     border-radius: 20px;
     min-width: 200px;
     max-width: 50%;
@@ -142,7 +143,7 @@ form button{
     margin: 0 auto;
 }
 
-form input, textarea{
+input, textarea{
     padding: 15px;
     border-bottom: medium solid white;
     border-top: none;
@@ -184,7 +185,6 @@ form label{
 }
 
 form select{
-    background-color: var(--second-color);
     color: var(--primary-color);
 }
 
@@ -274,6 +274,8 @@ section > article{
     transform: skew(-3deg);
     color: var(--second-color);
     overflow: hidden;
+    box-shadow: -5px 5px 3px grey;
+    min-width: fit-content;
 }
 
 article > div.actions{
@@ -281,7 +283,7 @@ article > div.actions{
     display: flex;
     justify-content: flex-end;
     gap: 5px;
-    background-color: black;
+    background-color: var(--primary-color);
 }
 
 div.actions > h3{
@@ -292,10 +294,17 @@ div.actions > h3{
 
 div.actions > a{
     background-color: var(--second-color);
-    padding: 5px;
+    color: black;
+}
+
+.button{
+    padding: 7px;
     border-radius: 15px;
     text-decoration: none;
-    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-height: fit-content;
 }
 
 div.actions > a:visited{
@@ -317,7 +326,110 @@ article > div{
 }
 
 article .tags > .tag{
-    background-color: black;
+    background-color: var(--second-color);
+    color: var(--primary-color);
+}
+
+
+div.dialog{
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(128, 128, 128, 0.758);
+    backdrop-filter: blur(10px);
+}
+
+
+div.dialog button{
+    width: 100px;
+    padding: 5px;
+
+}
+
+div.dialog > .text{
+    background-color: var(--second-color);
+    width: 80%;
+    height: 300px;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    min-width: fit-content;
+    min-height: fit-content;
+
+}
+
+
+
+.text > h1{
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    
+}
+
+.text > div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.text > div.buttons{
+    padding: 10px;
+    display: flex;
+    gap: 5px;
+    flex-direction: row;
+    justify-content: center;
+}
+
+body:has(div.dialog){
+    width: 100vw;
+    overflow-y: hidden;
+    position: fixed;
+}
+
+.remove, div.actions > a.remove{
+    background-color: red;
+    color: var(--third-color);
+}
+
+div.title{
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+div.title > div > a.create{
+    background-color: var(--primary-color);
+    color: var(--third-color);
+}
+
+div.title > div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+select option.original{
+    background-color: var(--fourth-color);
     color: white;
 }
+
+.tag-edit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+
 

@@ -41,7 +41,8 @@
             }
             cancelBtn.addEventListener('click',(e)=>{
                 toggled=false
-                e.target.parentElement.remove()
+                document.querySelector('div.dialog').remove()
+
             })
             deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
 

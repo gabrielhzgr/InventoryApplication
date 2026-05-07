@@ -6,7 +6,7 @@
     <h1><%= title %></h1>
     <form action="/all-shoes" method="GET">
         <div>
-            <h2>Colors</h2>
+            <h3>Colors</h3>
             <div>
                 <% colors.forEach(color=>{ %>
                     <label for="<%= color %>"><%= color %></label>
@@ -15,7 +15,7 @@
             </div>  
         </div>
         <div>
-            <label for="sizes">Sizes</label>
+            <h3>Sizes</h3>
             <div id="sizes">
                 <% sizes.forEach(size=>{ %>
                     <label for="<%= size %>"><%= size %></label>

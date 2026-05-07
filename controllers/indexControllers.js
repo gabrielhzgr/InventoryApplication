@@ -84,12 +84,12 @@ async function getAllShoes(req,res){
         maxPrice = Number(maxPrice)
     }
     let{minStock} = req.query
-    minStock = Number(minStock)
+    minStock = parseInt(minStock,10)
     let {maxStock} = req.query
     if(maxStock==''){
         maxStock='Infinity'
     }else{
-        maxStock = Number(maxPrice)
+        maxStock = parseInt(maxPrice)
     }
     let {sizes} = req.query
     if(sizes && !Array.isArray(sizes)){
@@ -100,11 +100,10 @@ async function getAllShoes(req,res){
         const shoes = await db.getFilteredShoes(minPrice, maxPrice, minStock, maxStock, colors, sizes)
         res.render('allShoes',{title: `All Shoe Stock for search`, shoes})
         return
-        //TODO: test this search
     }else if(req.query.modelId){
         const shoes = await db.getShoesByModel(Number(req.query.modelId))
         const model = await db.getModel(req.query.modelId)
-        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes})
+        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes, modelId: req.query.modelId})
         return
     }
     const shoes = await db.getAllShoes()
@@ -158,7 +157,7 @@ const createNewShoe = [
             res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
         }  
         let {color, size, price, modelId, unitsInStock} = req.body
-        const result = await db.createNewShoe(color.trim(), size.trim(), Number(price), Number(modelId), Number(unitsInStock))
+        const result = await db.createNewShoe(color.trim(), size.trim(), Number(price), Number(modelId), parseInt(unitsInStock,10))
         res.redirect(`/all-shoes?modelId=${modelId}`)
     }
 ]
@@ -201,9 +200,8 @@ const updateModel = [validateModel,
             tags = []
         }
 
-        const result = await db.updateModel(Number(id), description, Number(brandId), Number(demoId), tags)
+        const result = await db.updateModel(parseInt(id,10), description, Number(brandId), Number(demoIds), tags)
         res.json({redirect: `/all-models?modelId=${id}`})
-        
     } 
 ]
 
@@ -220,7 +218,7 @@ const updateShoe = [validateShoe,
             res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
         }  
         let {id, color, size, price, modelId, unitsInStock} = req.body
-        const result = await db.updateShoe(Number(id), color.trim(), size.trim(), Number(price), Number(modelId), Number(unitsInStock))
+        const result = await db.updateShoe(Number(id), color.trim(), size.trim(), Number(price), Number(modelId), parseInt(unitsInStock,10))
         res.json({redirect:`/all-shoes?modelId=${modelId}`})
     }
 ]
@@ -231,6 +229,18 @@ async function deleteShoe(req,res){
     const {modelId} = req.query
     res.json({redirect:`/all-shoes?modelId=${modelId}`})
 }
+
+async function deleteAllShoes(req,res){
+    const result = await db.deleteAllShoes()
+    res.json({redirect: '/all-shoes'})
+}
+
+async function deleteAllModels(req,res){
+    const result = await db.deleteAllModels()
+    res.json({redirect: '/all-models'})
+}
+
+
 
 module.exports = {
     getIndex,
@@ -247,5 +257,7 @@ module.exports = {
      updateShoe,
      getSearchVariationsForm,
      deleteShoe,
-     deleteModel
+     deleteModel,
+     deleteAllModels,
+     deleteAllShoes
 }

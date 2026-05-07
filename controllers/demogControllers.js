@@ -9,7 +9,7 @@ async function getDemog(req,res){
     const demographic= await db.getDemographic(demogId) 
     const models = await db.getDemoModels(demogId)
     const modTags = await db.getAllModelsTags()
-    res.render('demography',{title:demographic[0].name, demographic: demographic[0], models, modTags})
+    res.render('demography',{title:demographic[0].demo, demographic: demographic[0], models, modTags})
 }
 
 function getNewForm(req, res){    

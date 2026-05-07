@@ -129,8 +129,27 @@ async function getModel(id) {
     return rows
 }
 
+async function deleteAllModels(req,res) {
+    const query = `
+    BEGIN;
+        DELETE FROM shoes;
+        DELETE FROM models_tags;
+        DELETE FROM models;
+        
+    END;
+    `
+    const {rows} = await pool.query(query)
+    return rows
+    
+}
+
+async function deleteAllShoes(req, res){
+    const {rows} = pool.query('DELETE FROM shoes')
+    return rows
+}
+
 async function getShoeById(id){
-     const {rows} = await pool.query(`SELECT * from shoes WHERE sku=$1`,[id])
+     const {rows} = await pool.query(`SELECT * from shoes JOIN models ON model_id=id WHERE sku=$1`,[id])
     return rows
 }
 
@@ -236,5 +255,7 @@ module.exports = {
     createNewDemo,
     deleteDemographic,
     deleteBrand,
-    deleteModel
+    deleteModel,
+    deleteAllModels,
+    deleteAllShoes
 }

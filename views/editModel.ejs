@@ -10,6 +10,7 @@
         <div class="field text-field">
             <label for="description">Description</label>
             <input id="description" type="text" name="description" value="<%= model.description %>" required>
+            <button type="button" onclick="const desc = document.querySelector('#description'); desc.value = desc.defaultValue" class="reset button">Reset</button>
         </div>
         <input type="text" name="id" value="<%= model.id %>" hidden>
         
@@ -17,7 +18,7 @@
         <select name="brandId" id="brandId">
             <% brands.forEach(brand=>{ %>
                 <% if(brand.id==model.brand_id) {%>
-                    <option value="<%= brand.id %>" selected><%= brand.name %></option>
+                    <option class="original" value="<%= brand.id %>" selected><%= brand.name %></option>
                 <% }else{ %>
                     <option value="<%= brand.id %>"><%= brand.name %></option>
                 <% } %>
@@ -27,21 +28,31 @@
         <select name="demoId" id="demoId">
             <% demographics.forEach(demographic=>{ %>
                 <% if(demographic.id==model.demo_id) {%>
-                    <option value="<%= demographic.id %>" selected><%= demographic.demo %></option>
+                    <option class="original" value="<%= demographic.id %>" selected><%= demographic.demo %></option>
                 <% }else{ %>
                     <option value="<%= demographic.id %>"><%= demographic.demo %></option>
                 <% } %>
             <% }) %>
         </select>
-        <div>
-            <% modTags.forEach(tag=>{ %>
-                <label for="<%= tag.id %>"><%= tag.name %></label>
-                <% if(tag.model_id) {%>
-                    <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>" checked>
-                <% }else{ %>
-                    <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>">
-                <% } %>
-            <% }) %>
+        <div class="tag-edit">
+            <div class="tags">
+                <% modTags.forEach(tag=>{ %>
+                    <div>
+                        <label for="<%= tag.id %>"><%= tag.name %></label>
+                        <% if(tag.model_id) {%>
+                            <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>" data-checked="1" checked>
+                        <% }else{ %>
+                            <input type="checkbox" id="<%= tag.id %>" name="tags" value="<%= tag.id %>" data-checked="0">
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+            <button type="button" onclick="resetTags()">Reset</button>
+            <script>
+                function resetTags(){
+                    document.querySelectorAll("input[type='checkbox']").forEach(box=>box.checked = Number(box.dataset.checked))
+                }
+            </script>
         </div>
         <button type="submit">Submit</button>
     </form> 

@@ -3,9 +3,14 @@
 <%- include('partials/head') %>
 <body>
     <%- include('partials/header') %>
-    <nav>
-        <h1><%= title %></h1>
-    </nav>
+    <div class="title">
+        <h2><%= title %></h2>
+        <div>
+            <a class="delete-all remove button">Delete</a>
+            <a href="/newShoe" class="button create">Create Variation</a>
+        </div>
+        
+    </div>
         <% if(shoes.length>0){ %>
             <section>
                 <% shoes.forEach(shoe=>{ %>
@@ -21,7 +26,71 @@
                 if(!document.querySelector('div.dialog')){
                     const dialog = document.createElement('div')
                     dialog.className = 'dialog'
-                    dialog.innerHTML = `Confirm you want to delete this shoe <label for="password">Write adminpassword to proceed: </label><input id='password' type="password">`
+                    dialog.innerHTML = `<div class="text">
+                                            <h1>Confirm you want to delete this shoe variation stock</h1>
+                                            <div class="field">
+                                                <label for="password">Write adminpassword to proceed: </label>
+                                                <input id='password' type="password">
+                                            </div>
+                                            <div class="buttons">
+                                                <button class="confirm-btn remove button">Confirm</button>
+                                                <button class="cancel-btn button">Cancel</button>
+                                            </div>
+                                        </div>`
+
+                    document.body.append(dialog)
+
+                    const inputPass = document.querySelector('input[type="password"]')
+
+                    inputPass.addEventListener('keyup',(e)=>{
+                        if(e.key=='Enter'){
+                            tryDelete(e.target.value)
+                        }
+                    })
+
+                    function tryDelete(password){
+                        if(password==mockPassword){
+                            fetch(`/shoes/delete/${e.target.dataset.sku}?modelId=${e.target.dataset.modelid}`,{method:'DELETE'})
+                            .then(response=>response.json())
+                            .then(data=> {
+                                alert('Deleted succesfully')
+                                window.location.href = data.redirect
+                            })
+                            .catch(err=>{
+                                console.log(err)
+                                alert(err)
+                            })
+                        }else{
+                            alert('Password is incorrect')
+                        }
+                    }
+                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
+                        document.querySelector('div.dialog').remove()
+                    })
+                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+                }
+            })
+        })
+    </script>
+    <script>
+        document.querySelectorAll('a.delete-all').forEach(a=>{
+            a.addEventListener('click',(e)=>{
+                const mockPassword = 'adminpassword'
+                e.preventDefault()
+                if(!document.querySelector('div.dialog')){
+                    const dialog = document.createElement('div')
+                    dialog.className = 'dialog'
+                    dialog.innerHTML = `<div class="text">
+                                            <h1>Confirm you want to delete all shoe stock?</h1>
+                                            <div class="field">
+                                                <label for="password">Write adminpassword to proceed: </label>
+                                                <input id='password' type="password">
+                                            </div>
+                                            <div class="buttons">
+                                                <button class="confirm-btn remove">Confirm</button>
+                                                <button class="cancel-btn">Cancel</button>
+                                            </div>
+                                        </div>`
 
                     deleteBtn = Object.assign(document.createElement('button'),
                     {textContent: 'Confirm', className: 'confirm-btn'})
@@ -41,7 +110,7 @@
 
                     function tryDelete(password){
                         if(password==mockPassword){
-                            fetch(`/shoes/delete/${e.target.dataset.sku}?modelId=${e.target.dataset.modelid}`,{method:'DELETE'})
+                            fetch(`/shoes/delete`,{method:'DELETE'})
                             .then(response=>response.json())
                             .then(data=> {
                                 alert('Deleted succesfully')
