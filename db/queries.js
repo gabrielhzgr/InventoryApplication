@@ -126,7 +126,7 @@ async function deleteModel(id) {
 }
 
 async function getModel(id) {
-    const {rows} = await pool.query(`SELECT models.id, brand_id, demo_id, description from models JOIN demographics 
+    const {rows} = await pool.query(`SELECT models.id, brand_id, demo_id, description, demo, name from models JOIN demographics 
         ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE models.id=$1`,[id])
     return rows
 }
