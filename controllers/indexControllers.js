@@ -200,7 +200,7 @@ const updateModel = [validateModel,
             tags = []
         }
 
-        const result = await db.updateModel(parseInt(id,10), description, Number(brandId), Number(demoIds), tags)
+        const result = await db.updateModel(parseInt(id,10), description, Number(brandId), Number(demoId), tags)
         res.json({redirect: `/all-models?modelId=${id}`})
     } 
 ]

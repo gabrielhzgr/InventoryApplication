@@ -9,31 +9,35 @@
         <h2><%= title %></h2>
         <div class="field text-field">
             <label for="description">Description</label>
-            <input id="description" type="text" name="description" value="<%= model.description %>" required>
+            <input id="description" type="text" name="description" value="<%= model.description %>" placeholder="Description" required>
             <button type="button" onclick="const desc = document.querySelector('#description'); desc.value = desc.defaultValue" class="reset button">Reset</button>
         </div>
         <input type="text" name="id" value="<%= model.id %>" hidden>
+        <div>
+            <label for="brandId">Brand</label>
+            <select name="brandId" id="brandId">
+                <% brands.forEach(brand=>{ %>
+                    <% if(brand.id==model.brand_id) {%>
+                        <option class="original" value="<%= brand.id %>" selected><%= brand.name %></option>
+                    <% }else{ %>
+                        <option value="<%= brand.id %>"><%= brand.name %></option>
+                    <% } %>
+                <% }) %>
+            </select>
+        </div>
         
-        <label for="brandId">Brand</label>
-        <select name="brandId" id="brandId">
-            <% brands.forEach(brand=>{ %>
-                <% if(brand.id==model.brand_id) {%>
-                    <option class="original" value="<%= brand.id %>" selected><%= brand.name %></option>
-                <% }else{ %>
-                    <option value="<%= brand.id %>"><%= brand.name %></option>
-                <% } %>
-            <% }) %>
-        </select>
-        <label for="demoId">Demographic</label>
-        <select name="demoId" id="demoId">
-            <% demographics.forEach(demographic=>{ %>
-                <% if(demographic.id==model.demo_id) {%>
-                    <option class="original" value="<%= demographic.id %>" selected><%= demographic.demo %></option>
-                <% }else{ %>
-                    <option value="<%= demographic.id %>"><%= demographic.demo %></option>
-                <% } %>
-            <% }) %>
-        </select>
+        <div>
+            <label for="demoId">Demographic</label>
+            <select name="demoId" id="demoId">
+                <% demographics.forEach(demographic=>{ %>
+                    <% if(demographic.id==model.demo_id) {%>
+                        <option class="original" value="<%= demographic.id %>" selected><%= demographic.demo %></option>
+                    <% }else{ %>
+                        <option value="<%= demographic.id %>"><%= demographic.demo %></option>
+                    <% } %>
+                <% }) %>
+            </select>
+        </div>
         <div class="tag-edit">
             <div class="tags">
                 <% modTags.forEach(tag=>{ %>
@@ -56,6 +60,7 @@
         </div>
         <button type="submit">Submit</button>
     </form> 
-   <%- include('partials/confirmEdit',{url: '/models/edit'}) %>
+   <%- include('partials/confirmEdit',{url: `/models/edit/`}) %>
+   <%- include('partials/labelInputs') %>
 </body>
 </html>

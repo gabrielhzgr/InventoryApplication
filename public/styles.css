@@ -120,6 +120,10 @@ form{
     color: white;
 }
 
+form h2{
+    margin-bottom: 10px;
+}
+
 form > div{
     width: 80%;
     border-bottom: thin solid white;
@@ -127,7 +131,6 @@ form > div{
 }
 
 form h3,label{
-    text-shadow: 0px 0px 3px white;
     font-size: 1rem;
 }
 
@@ -154,6 +157,11 @@ input, textarea{
     transition: all 0.5s ease;
     color: white;
     width: 100%;
+    margin-bottom: 5px;
+}
+
+input[type="radio"]{
+    width: fit-content;
 }
 
 input.money::before{
@@ -236,7 +244,7 @@ div.text-field > label{
 }
 
 
-div.text-field:has(input:focus) > label{
+div.text-field:has(input.labeled) > label{
     opacity: 1;
     top: -15px;
     left: 10px;
@@ -244,7 +252,8 @@ div.text-field:has(input:focus) > label{
     text-shadow: 0px 0px 3px black;
 }
 
-div.text-field:has(textarea:focus) > label{
+
+div.text-field:has(textarea.labeled) > label{
     opacity: 1;
     top: -15px;
     left: 10px;
@@ -252,11 +261,11 @@ div.text-field:has(textarea:focus) > label{
     text-shadow: 0px 0px 3px black;
 }
 
-div.text-field:has(input:focus ) > input::placeholder{
+div.text-field:has(input.labeled) > input::placeholder{
     color: transparent;
 }
 
-div.text-field:has(textarea:focus) > textarea::placeholder{
+div.text-field:has(textarea.labeled) > textarea::placeholder{
     color: transparent;
 }
 

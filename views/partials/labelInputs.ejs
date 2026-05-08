@@ -1,0 +1,20 @@
+<script>
+        document.querySelectorAll('div.text-field > input, textarea').forEach(input=>{
+            input.addEventListener('focus',(e)=>{
+                e.target.className = "labeled"
+            })
+
+            input.addEventListener('focusout',(e)=>{
+                if(e.target.value.trim()!==""){
+                    e.target.className = "labeled"
+                }else{
+                    e.target.className = ""
+                }
+            })
+
+            
+                if(input.value.trim()!==""){
+                    input.className = "labeled"
+                }                
+        })
+   </script>

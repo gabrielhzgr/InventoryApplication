@@ -26,6 +26,8 @@ async function getFilteredModels(description, tags) {
         const {rows} = await pool.query(query,[description])
         return rows
     }else{
+        query += `SELECT * from models JOIN demographics ON demographics.id=demo_id 
+        JOIN brands ON brands.id=brand_id WHERE description ILIKE ('%' || $1 || '%')`
         query+=`AND models.id IN (SELECT model_id FROM models_tags WHERE tag_id = ANY($2))`
         const {rows} = await pool.query(query,[description, tags])
         return rows
@@ -124,7 +126,7 @@ async function deleteModel(id) {
 }
 
 async function getModel(id) {
-    const {rows} = await pool.query(`SELECT * from models JOIN demographics 
+    const {rows} = await pool.query(`SELECT models.id, brand_id, demo_id, description from models JOIN demographics 
         ON demographics.id=demo_id JOIN brands ON brands.id=brand_id WHERE models.id=$1`,[id])
     return rows
 }
