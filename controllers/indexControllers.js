@@ -189,12 +189,12 @@ const updateModel = [validateModel,
     async (req,res)=>{
         const errors = validationResult(req)
         if(!errors.isEmpty()){
-            const {modelId} = req.params
-            const model = await db.getModel(modelId)
+            const {id} = req.body
+            const model = await db.getModel(Number(id))
             const brands = await db.getAllBrands()
             const demographics = await db.getAllDemographics()
-            const modTags = db.getAllTags()
-            res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics, errors})
+            const modTags = await db.getAllTags()
+            res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics, errors: errors.array()})
             return
         }
         let {id, description, brandId, demoId, tags} = req.body
