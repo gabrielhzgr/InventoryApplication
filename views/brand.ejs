@@ -37,10 +37,7 @@
                                             </div>
                                         </div>`
 
-                    deleteBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Confirm', className: 'confirm-btn remove'})
-                    cancelBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Cancel', className: 'cancel-btn'})
+                    
 
                     document.body.append(dialog)
 
@@ -49,6 +46,12 @@
                     inputPass.addEventListener('keyup',(e)=>{
                         if(e.key=='Enter'){
                             tryDelete(e.target.value)
+                        }
+                    })
+
+                    window.addEventListener('keyup',(e)=>{
+                        if(e.key=='Escape'){
+                            dialog.remove()
                         }
                     })
 
@@ -97,15 +100,14 @@
                                             </div>
                                         </div>`
 
-                    deleteBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Confirm', className: 'confirm-btn'})
-                    cancelBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Cancel', className: 'deny-btn'})
-
-                    dialog.append(deleteBtn, cancelBtn)
                     document.body.append(dialog)
-
                     const inputPass = document.querySelector('input[type="password"]')
+
+                    window.addEventListener('keyup',(e)=>{
+                        if(e.key=='Escape'){
+                            dialog.remove()
+                        }
+                    })
 
                     inputPass.addEventListener('keyup',(e)=>{
                         if(e.key=='Enter'){
@@ -129,10 +131,10 @@
                             alert('Password is incorrect')
                         }
                     }
-                    cancelBtn.addEventListener('click',(e)=>{
-                        document.querySelector('div.dialog').remove()
+                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
+                        dialog.remove()
                     })
-                    deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
             })
         })

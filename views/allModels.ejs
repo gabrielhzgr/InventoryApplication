@@ -13,7 +13,7 @@
         <% models.forEach((model)=> { %>
             <%- include('partials/model', {model, modTags}); %>
         <% }); %>
-    </section>  
+    </section> 
     <script>
         document.querySelectorAll('a.delete').forEach(a=>{
             a.addEventListener('click',(e)=>{
@@ -29,7 +29,7 @@
                                                 <input id='password' type="password">
                                             </div>
                                             <div class="buttons">
-                                                <button class="confirm-btn button">Confirm</button>
+                                                <button class="confirm-btn remove button">Confirm</button>
                                                 <button class="cancel-btn button">Cancel</button>
                                             </div>
                                         </div>`
@@ -41,6 +41,12 @@
                     inputPass.addEventListener('keyup',(e)=>{
                         if(e.key=='Enter'){
                             tryDelete(e.target.value)
+                        }
+                    })
+
+                    window.addEventListener('keyup',(e)=>{
+                        if(e.key=='Escape'){
+                            dialog.remove()
                         }
                     })
 
@@ -60,10 +66,10 @@
                             alert('Password is incorrect')
                         }
                     }
-                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{
-                        document.querySelector('div.dialog').remove()
+                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
+                        dialog.remove()
                     })
-                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
             })
         })
@@ -93,6 +99,12 @@
                     inputPass.addEventListener('keyup',(e)=>{
                         if(e.key=='Enter'){
                             tryDelete(e.target.value)
+                        }
+                    })
+
+                    window.addEventListener('keyup',(e)=>{
+                        if(e.key=='Escape'){
+                            dialog.remove()
                         }
                     })
 

@@ -52,6 +52,12 @@
                         }
                     })
 
+                     window.addEventListener('keyup',(e)=>{
+                        if(e.key=='Escape'){
+                            dialog.remove()
+                        }
+                    })
+
                     function tryDelete(password){
                         if(password==mockPassword){
                             let id = '<%= locals.id %>'
@@ -76,7 +82,7 @@
                         }
                     }
                     document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
-                        document.querySelector('div.dialog').remove()
+                        dialog.remove()
                     })
                     document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
