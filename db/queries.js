@@ -75,7 +75,8 @@ async function getBrand(id) {
 }
 
 async function getBrandModels(id) {
-    const {rows} = await pool.query('SELECT * FROM models WHERE brand_id=$1', [id])
+    const {rows} = await pool.query(`SELECT models.id, brand_id, demo_id, description, demo, name FROM models 
+        JOIN demographics ON demo_id=demographics.id JOIN brands ON brand_id = brands.id WHERE brand_id=$1`,[id])
     return rows
 }
 

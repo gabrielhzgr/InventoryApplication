@@ -25,8 +25,7 @@ async function getEditModelForm(req, res) {
     const brands = await db.getAllBrands()
     const demographics = await db.getAllDemographics()
     const modTags = await db.getTagsForModel(modelId)
-    const tags = await db.getAllTags()
-    res.render('editModel',{title: 'Edit model', model: model[0], modTags,brands, demographics})
+    res.render('editModel',{title: 'Edit model', model: model[0], modTags ,brands, demographics})
 }
 
 
@@ -67,7 +66,6 @@ async function getEditShoeForm(req, res) {
     colors = colors.map(color=>color.color)
     let sizes = await db.getAllSizes()
     sizes = sizes.map(size=>size.size)
-
     res.render('editShoe',{title:'Edit shoe', shoe: shoe[0], models, colors, sizes})
 }
 
@@ -193,7 +191,8 @@ const updateModel = [validateModel,
             const model = await db.getModel(Number(id))
             const brands = await db.getAllBrands()
             const demographics = await db.getAllDemographics()
-            const modTags = await db.getAllTags()
+            const modTags = await db.getTagsForModel(Number(id))
+
             res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics, errors: errors.array()})
             return
         }
@@ -211,13 +210,13 @@ const updateShoe = [validateShoe,
     async (req,res)=> {
         const errors = validationResult(req)   
         if(!errors.isEmpty()){
-            const shoe = await db.getShoeById(req.params.shoeId)
+            const shoe = await db.getShoeById(req.body.id)
             const models  = await db.getAllModels()
             let colors = await db.getAllColors()
             colors = colors.map(color=>color.color)
             let sizes = await db.getAllSizes()
             sizes = sizes.map(size=>size.size)
-            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: errors.array()})
+            res.status(404).render('editShoe',{title:'Add new shoe',shoe: shoe[0], models, colors, sizes, errors: errors.array()})
             return
         }  
         let {id, color, size, price, modelId, unitsInStock} = req.body

@@ -3,13 +3,15 @@
 <%- include('partials/head') %>
 <body>
     <%- include('partials/header') %>
-    <h2><%= title %></h2>
-    <a class="delete-all remove button">Delete</a>
+    <div class="title">
+        <h2><%= title %></h2>
+        <a class="delete-all remove button">Delete</a>
+    </div>
+    
     <section>
         <% if(models.length>0){ %>
             <section>
-                <% models.forEach(model=>{ %>
-                   
+                <% models.forEach(model=>{ %>      
                     <%- include('partials/model', {model, modTags}) %>
                 <% }) %>
             </section>
