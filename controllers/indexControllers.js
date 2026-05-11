@@ -55,8 +55,9 @@ async function getNewShoeForm(req,res){
     colors = colors.map(color=>color.color)
     let sizes = await db.getAllSizes()
     sizes = sizes.map(size=>size.size)
+    
 
-    res.render('newShoeForm',{title:'Add new shoe', models, tags, colors, sizes})
+    res.render('newShoeForm',{title:'Add new shoe', models, tags, colors, sizes, modelId: req.query.modelId})
 }
 
 async function getEditShoeForm(req, res) {
@@ -103,7 +104,7 @@ async function getAllShoes(req,res){
     }else if(req.query.modelId){
         const shoes = await db.getShoesByModel(Number(req.query.modelId))
         const model = await db.getModel(req.query.modelId)
-        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes, modelId: req.query.modelId})
+        res.render('allShoes',{title: `All Shoe Stock for ${model[0].description}`, shoes, id: req.query.modelId})
         return
     }
     const shoes = await db.getAllShoes()
@@ -154,7 +155,8 @@ const createNewShoe = [
             colors = colors.map(color=>color.color)
             let sizes = await db.getAllSizes()
             sizes = sizes.map(size=>size.size)
-            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
+            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: errors.array()})
+            return
         }  
         let {color, size, price, modelId, unitsInStock} = req.body
         const result = await db.createNewShoe(color.trim(), size.trim(), Number(price), Number(modelId), parseInt(unitsInStock,10))
@@ -215,7 +217,8 @@ const updateShoe = [validateShoe,
             colors = colors.map(color=>color.color)
             let sizes = await db.getAllSizes()
             sizes = sizes.map(size=>size.size)
-            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: err})
+            res.status(404).render('newShoeForm',{title:'Add new shoe', models, colors, sizes, errors: errors.array()})
+            return
         }  
         let {id, color, size, price, modelId, unitsInStock} = req.body
         const result = await db.updateShoe(Number(id), color.trim(), size.trim(), Number(price), Number(modelId), parseInt(unitsInStock,10))
@@ -231,7 +234,8 @@ async function deleteShoe(req,res){
 }
 
 async function deleteAllShoes(req,res){
-    const result = await db.deleteAllShoes()
+    let {modelId} = req.query
+    const result = await db.deleteAllShoes(modelId)
     res.json({redirect: '/all-shoes'})
 }
 

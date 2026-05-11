@@ -131,7 +131,7 @@ async function getModel(id) {
     return rows
 }
 
-async function deleteAllModels(req,res) {
+async function deleteAllModels() {
     const query = `
     BEGIN;
         DELETE FROM shoes;
@@ -145,9 +145,14 @@ async function deleteAllModels(req,res) {
     
 }
 
-async function deleteAllShoes(req, res){
-    const {rows} = pool.query('DELETE FROM shoes')
-    return rows
+async function deleteAllShoes(modelId){
+    if(modelId){
+        const {rows} = pool.query('DELETE FROM shoes WHERE model_id=$1',[modelId])
+        return rows
+    }else{
+        const {rows} = pool.query('DELETE FROM shoes')
+        return rows
+    }
 }
 
 async function getShoeById(id){

@@ -55,7 +55,16 @@
             <label for="modelId">Model</label>
             <select name="modelId" id="modelId">
                 <% models.forEach(model=>{ %>
-                    <option value=<%= model.id %>><%= model.description %></option>
+                    <% if(locals.modelId){ %>
+                        <% if(model.id == locals.modelId){ %>
+                            <option class="original" value=<%= model.id %> selected><%= model.description %></option>
+                        <% }else{ %>
+                            <option value=<%= model.id %>><%= model.description %></option>
+                        <% } %>
+                    <% }else{ %>
+                        <option value=<%= model.id %>><%= model.description %></option>
+
+                    <% } %>
                 <% }) %>
             </select>
 

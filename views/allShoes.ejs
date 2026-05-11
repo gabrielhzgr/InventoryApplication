@@ -7,7 +7,11 @@
         <h2><%= title %></h2>
         <div>
             <a class="delete-all remove button">Delete</a>
-            <a href="/newShoe" class="button create">Create Variation</a>
+            <% if(locals.id){ %>
+                <a href="/newShoe?modelId=<%= id %>" class="button create">Create Stock</a>
+            <% }else{ %>
+                <a href="/newShoe" class="button create">Create Stock</a>
+            <% } %>
         </div>
         
     </div>
@@ -19,8 +23,8 @@
             </section>
         <% } %>
     <script>
-        document.querySelectorAll('a.delete').forEach(a=>{
-            a.addEventListener('click',(e)=>{
+        
+            document.querySelector('a.delete-all').addEventListener('click',(e)=>{
                 const mockPassword = 'adminpassword'
                 e.preventDefault()
                 if(!document.querySelector('div.dialog')){
@@ -50,7 +54,14 @@
 
                     function tryDelete(password){
                         if(password==mockPassword){
-                            fetch(`/shoes/delete/${e.target.dataset.sku}?modelId=${e.target.dataset.modelid}`,{method:'DELETE'})
+                            let id = '<%= locals.id %>'
+                            let url = ''
+                            if(id!==''){
+                                url = `/shoes/delete/?modelId=${id}`
+                            }else{
+                                url = `/shoes/delete/`
+                            }
+                            fetch(url,{method:'DELETE'})
                             .then(response=>response.json())
                             .then(data=> {
                                 alert('Deleted succesfully')
@@ -70,10 +81,10 @@
                     document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
             })
-        })
+        
     </script>
     <script>
-        document.querySelectorAll('a.delete-all').forEach(a=>{
+        document.querySelectorAll('a.delete').forEach(a=>{
             a.addEventListener('click',(e)=>{
                 const mockPassword = 'adminpassword'
                 e.preventDefault()
@@ -92,12 +103,6 @@
                                             </div>
                                         </div>`
 
-                    deleteBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Confirm', className: 'confirm-btn'})
-                    cancelBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Cancel', className: 'deny-btn'})
-
-                    dialog.append(deleteBtn, cancelBtn)
                     document.body.append(dialog)
 
                     const inputPass = document.querySelector('input[type="password"]')
@@ -110,7 +115,8 @@
 
                     function tryDelete(password){
                         if(password==mockPassword){
-                            fetch(`/shoes/delete`,{method:'DELETE'})
+
+                            fetch(`/shoes/delete/${e.target.dataset.sku}?modelId=${e.target.dataset.modelid}`,{method:'DELETE'})
                             .then(response=>response.json())
                             .then(data=> {
                                 alert('Deleted succesfully')
@@ -124,10 +130,10 @@
                             alert('Password is incorrect')
                         }
                     }
-                    cancelBtn.addEventListener('click',(e)=>{
+                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
                         document.querySelector('div.dialog').remove()
                     })
-                    deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
             })
         })
