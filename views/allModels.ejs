@@ -33,10 +33,7 @@
                                                 <button class="cancel-btn button">Cancel</button>
                                             </div>
                                         </div>`
-                    cancelBtn = Object.assign(document.createElement('button'),
-                    {textContent: 'Cancel', className: 'deny-btn'})
-
-                    dialog.append(deleteBtn, cancelBtn)
+                    
                     document.body.append(dialog)
 
                     const inputPass = document.querySelector('input[type="password"]')
@@ -63,10 +60,10 @@
                             alert('Password is incorrect')
                         }
                     }
-                    cancelBtn.addEventListener('click',(e)=>{
+                    document.querySelector('.confirm-btn').addEventListener('click',(e)=>{
                         document.querySelector('div.dialog').remove()
                     })
-                    deleteBtn.addEventListener('click',(e)=>{tryDelete(inputPass.value)})
+                    document.querySelector('.cancel-btn').addEventListener('click',(e)=>{tryDelete(inputPass.value)})
                 }
             })
         })
