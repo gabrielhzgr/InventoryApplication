@@ -192,7 +192,6 @@ const updateModel = [validateModel,
             const brands = await db.getAllBrands()
             const demographics = await db.getAllDemographics()
             const modTags = await db.getTagsForModel(Number(id))
-
             res.render('editModel',{title: 'Edit model', model: model[0], modTags, brands, demographics, errors: errors.array()})
             return
         }
@@ -202,7 +201,7 @@ const updateModel = [validateModel,
         }
 
         const result = await db.updateModel(parseInt(id,10), description, Number(brandId), Number(demoId), tags)
-        res.json({redirect: `/all-models?modelId=${id}`})
+        res.redirect(`/all-models?modelId=${id}`)
     } 
 ]
 

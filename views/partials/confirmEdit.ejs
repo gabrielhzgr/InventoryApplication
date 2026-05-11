@@ -1,90 +1,59 @@
+ 
+ 
  <script>
+    document.querySelector('form').addEventListener('submit',openDialog)
+
+    function openDialog(e){
         let mockPassword = 'adminpassword'
-        let toggled = false   
         const myForm = document.querySelector('form')
-        myForm.addEventListener('submit',(e)=>{
-            e.preventDefault();
-            if(!toggled){
-                toggled=true
-                const dialog = document.createElement('div')
-                dialog.className = 'dialog'
-                dialog.innerHTML = `<div class="text">
-                                            <h1>Confirm changes to <%= title %>?</h1>
-                                            <div class="field">
-                                                <label for="password">Write adminpassword to proceed: </label>
-                                                <input id='password' type="password">
-                                            </div>
-                                            <div class="buttons">
-                                                <button class="confirm-btn remove button">Confirm</button>
-                                                <button class="cancel-btn button">Cancel</button>
-                                            </div>
-                                        </div>`
+        e.preventDefault()
 
-                document.body.append(dialog)
+        if(!document.querySelector('div.dialog')){
+            const dialog = document.createElement('div')
+            dialog.className = 'dialog'
+            dialog.innerHTML = `<div class="text">
+                                        <h1>Confirm changes to <%= title %>?</h1>
+                                        <div class="field">
+                                            <label for="password">Write adminpassword to proceed: </label>
+                                            <input id='password' type="password">
+                                        </div>
+                                        <div class="buttons">
+                                            <button class="confirm-btn remove button">Confirm</button>
+                                            <button class="cancel-btn button">Cancel</button>
+                                        </div>
+                                    </div>`
+            document.body.append(dialog)
+            const inputPass = document.querySelector('input[type="password"]')
 
-                const inputPass = document.querySelector('input[type="password"]')
+            document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
+                dialog.remove()
+            })
 
-                inputPass.addEventListener('keyup',(e)=>{
-                    if(e.key=='Enter'){
-                        tryEdit(e.target.value)
-                    }
-                })
-                
-                function tryEdit(password){
-                    if(password==mockPassword){
-
-                        let data = new FormData(myForm)
-                        let myData = {}
-                        for(const [key,value] of data.entries()){
-                            if(key in myData){
-                                myData[key] = [...myData[key], value]
-                            }else{
-                                myData[key] = value
-                            }
-                        }
-
-                        fetch(`<%= url %>`,{method:'POST', body: JSON.stringify(myData),
-                            headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}
-                        })
-                        .then(response=>{
-                            if(response.headers.get('content-type').includes('text/html')){
-                                return response.text() //got back form with validation alerts
-                            }else if(response.headers.get('content-type').includes('application/json')){
-                                return response.json() //the form passed the validation and sent 
-                                            //redirection link in a json
-                            }  
-
-                            
-                        })
-                        .then(data=> {
-                            if(typeof data == 'object'){
-                                alert('Edited succesfully')
-                                console.log(data);
-                                window.location.href = data.redirect
-                            }else if(typeof data == 'string'){
-                                document.open();
-                                document.write(data);
-                                document.close();
-
-                                //TODO: Checar porque devuelve una pagina que dice 
-                                //errors forEach is not a function
-                            }
-                            
-                        })
-                        .catch(err=>{
-                            console.log(err)
-                            alert(err)
-                        })
-                    }else{
-                        alert('Password is incorrect')
-                    }
+            window.addEventListener('keyup',(e)=>{
+                if(e.key=='Escape'){
+                    dialog.remove()
                 }
-                document.querySelector('.cancel-btn').addEventListener('click',(e)=>{
-                    toggled=false
-                    document.querySelector('div.dialog').remove()
-                })
-                document.querySelector('.confirm-btn').addEventListener('click',(e)=>{tryEdit(inputPass.value)})
+            })
 
-        }   
-    })
+            document.querySelector('.confirm-btn').addEventListener('click',(e)=>{
+                tryEdit(inputPass.value)
+            })
+
+            inputPass.addEventListener('keyup',(e)=>{
+                if(e.key=='Enter'){
+                    tryEdit(inputPass.value)
+                }
+            })
+
+            function tryEdit(password){
+                if(password!==mockPassword){
+                    alert('Password is incorrect')
+                }else{
+                    myForm.submit()
+                }
+            }
+
+        }
+
+    }
 </script> 

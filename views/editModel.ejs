@@ -5,7 +5,7 @@
     <%- include('partials/header') %>
     <%- include('partials/errors') %>
    
-    <form action="">
+    <form action="/models/edit" method="POST">
         <h2><%= title %></h2>
         <div class="field text-field">
             <label for="description">Description</label>
@@ -58,7 +58,7 @@
                 }
             </script>
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" class="submit-btn">Submit</button>
     </form> 
    <%- include('partials/confirmEdit',{url: `/models/edit/`}) %>
    <%- include('partials/labelInputs') %>

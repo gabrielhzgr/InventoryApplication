@@ -22,6 +22,12 @@
                     tryDelete(e.target.value)
                 }
             })
+
+            window.addEventListener('keyup',(e)=>{
+                if(e.key=='Escape'){
+                    dialog.remove()
+                }
+            })
             
             function tryDelete(password){
                 if(password==mockPassword){
