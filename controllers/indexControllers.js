@@ -220,7 +220,7 @@ const updateShoe = [validateShoe,
         }  
         let {id, color, size, price, modelId, unitsInStock} = req.body
         const result = await db.updateShoe(Number(id), color.trim(), size.trim(), Number(price), Number(modelId), parseInt(unitsInStock,10))
-        res.json({redirect:`/all-shoes?modelId=${modelId}`})
+        res.redirect(`/all-shoes?modelId=${modelId}`)
     }
 ]
 
