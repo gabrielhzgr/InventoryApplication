@@ -178,6 +178,12 @@ const createNewModel = [
         if(!tags){
             tags=[]
         }
+
+        if(!Array.isArray(tags)){
+            tags = [tags]
+        }
+
+
         const result = await db.createNewModel(description.trim(), Number(brandId), Number(demoId), tags)
         res.redirect('/all-models')
     }
